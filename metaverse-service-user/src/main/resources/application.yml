@@ -1,0 +1,101 @@
+server:
+  port: 8081
+  servlet:
+    context-path:
+  forward-headers-strategy: none
+
+
+spring:
+  application:
+    name: metaverse-service-user
+  cloud:
+    nacos:
+      discovery:
+        namespace: dev
+        server-addr: 10.8.8.5:8848
+    inetutils:
+      ignored-interfaces: Realtek*
+      preferred-networks: 10.8.10
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://10.8.8.4:3306/metaverse_user?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2B8
+      #url: jdbc:mysql://115.29.236.111:3306/beiming?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2B8
+      username: root
+      password: root
+      #    password: Zyf@88617866
+      maxWait: 60000
+      connect-properties:
+        socketTimeout: 30000
+        connectTimeout: 12000
+      maxActive: 50
+      initial-size: 10
+      min-idle: 10
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 30000
+      max-evictable-idle-time-millis: 180000
+      phy-timeout-millis: 15000
+      validation-query: select 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-open-prepared-statements: 20
+      use-global-data-source-stat: true
+      keepAlive: true
+      remove-abandoned: true
+      remove-abandoned-timeout: 100
+      filters: stat,slf4j
+  redis:
+    password: $ZyF_8861-78Z
+    cluster:
+      #设置redis集群的节点信息，其中namenode为域名解析，通过解析域名来获取相应的地址;
+      nodes: 10.8.8.5:6379,10.8.8.5:6380,10.8.8.5:6381
+    jedis:
+      pool:
+        max-idle: 8
+        min-idle: 0
+        max-active: 8
+        max-wait: -1ms
+
+logging:
+  config: classpath:log4j2-dev.xml
+  level:
+    cn.jay.repository: trace
+#配置mybatis
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: org.pj.metaverse.user.entity.*
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-value: Y # 逻辑已删除值
+      logic-not-delete-value: N # 逻辑未删除值
+# Sa-Token配置
+sa-token:
+  # token名称 (同时也是cookie名称)
+  token-name: X-Meta_verse-token
+  # token有效期，单位s 默认30天, -1代表永不过期
+  timeout: 2592000
+  # token临时有效期 (指定时间内无操作就视为token过期) 单位: 秒
+  activity-timeout: -1
+  # 是否允许同一账号并发登录 (为true时允许一起登录, 为false时新登录挤掉旧登录)
+  is-concurrent: false
+  # 在多人登录同一账号时，是否共用一个token (为true时所有登录共用一个token, 为false时每次登录新建一个token)
+  is-share: false
+  # token风格
+  token-style: random-128
+  # 是否输出操作日志
+  is-log: false
+
+swagger3:
+  enable: true
+  title: Metaverse user
+  description: Metaverse user api document
+  authHeaderKey: X-Meta_verse-token
+knife4j:
+  # 开启增强配置
+  enable: true
+  # 开启生产环境屏蔽
+  production: false

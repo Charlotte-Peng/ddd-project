@@ -1,0 +1,52 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+
+###  project  ####
+logs/*
+*.log.gz
+*.log.*.zip
+*/application-dev.yml
+*/application.properties
+mvn_package.sh
+
+*.nohup
+seata-serrver/**
+service-playbook.yml
+
+###  忽略启动配置及sh  ####
+*.sh
+**/*.sh
+!**/src/main/resources/bootstrap.propertiesbootstrap.properties
+bootstrap.properties
