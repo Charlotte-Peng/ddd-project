@@ -14,7 +14,7 @@ import java.util.Set;
  * @author pengjie
  * @date 14:43 2022/5/17
  **/
-@FeignClient(name = "Metaverse-system-service")
+@FeignClient(name = "metaverse-service-system")
 public interface SystemFeign {
     /**
      * 根据key获取系统配置

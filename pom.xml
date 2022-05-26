@@ -31,6 +31,7 @@
         <module>metaverse-event</module>
         <module>metaverse-execl</module>
         <module>metaverse-i18n</module>
+        <module>Metaverse-service-system</module>
         <module>metaverse-service-user</module>
         <module>metaverse-service-blog</module>
         <module>metaverse-service-workflow</module>
