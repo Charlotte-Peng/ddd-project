@@ -1,0 +1,9 @@
+camunda:
+  bpm:
+    client:
+      base-url: http://10.8.8.4:8000/engine-rest
+      async-response-timeout: 6000
+      worker-id: secondHouseSystem
+      basic-auth:
+        username: root
+        password: zyf88617866
