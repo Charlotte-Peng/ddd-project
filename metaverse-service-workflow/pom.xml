@@ -38,6 +38,16 @@
             <artifactId>camunda-bpm-spring-boot-starter-external-task-client</artifactId>
             <version>7.17.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.camunda.bpm.springboot</groupId>
+            <artifactId>camunda-bpm-spring-boot-starter</artifactId>
+            <version>7.17.0</version>
+        </dependency>
+        <!--            fastjson-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

@@ -47,4 +47,8 @@ public class BaseEntity implements Serializable {
     @TableField("deleted")
     @TableLogic
     private String deleted;
+
+    @ApiModelProperty(value = "排序规则",hidden = true)
+    @TableField(exist = false)
+    private String orderBy;
 }

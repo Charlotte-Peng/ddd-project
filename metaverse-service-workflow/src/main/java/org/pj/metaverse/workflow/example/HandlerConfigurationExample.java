@@ -17,7 +17,8 @@ import java.util.Map;
 
 /**
  * Camunda 外部任务，订阅主题
- * @author admin
+ * @author charlotte
+ * @date 2022-05-27 12:00
  */
 @Configuration
 public class HandlerConfigurationExample {
