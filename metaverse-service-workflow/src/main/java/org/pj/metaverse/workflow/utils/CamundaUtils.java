@@ -167,9 +167,8 @@ public class CamundaUtils {
      */
     public static Map<String, Object> convertVariableInstances(List<VariableInstance> variableInstanceList) {
         //添加流程变量到taskVo中
-        Map<String, Object> processVariables = variableInstanceList.stream()
+        return variableInstanceList.stream()
                 .collect(Collectors.toMap(VariableInstance::getName, VariableInstance::getValue));
-        return processVariables;
     }
 
     /**

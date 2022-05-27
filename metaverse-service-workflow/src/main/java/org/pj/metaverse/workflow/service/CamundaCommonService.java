@@ -18,6 +18,7 @@ import org.pj.metaverse.workflow.entity.param.ProcessVariablesQueryParam;
 import org.pj.metaverse.workflow.entity.param.TaskQueryParam;
 import org.pj.metaverse.workflow.entity.vo.TaskVo;
 import org.pj.metaverse.workflow.utils.CamundaUtils;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.List;
