@@ -41,6 +41,13 @@ public class LoginController {
         return new DataResult<>(DataResult.SUCCESS_CODE,DataResult.SUCCESS_MESSAGE,data);
     }
 
+    @ApiOperation(value = "【App】退出登录")
+    @PostMapping("logOut-v1")
+    public DataResult<Void> logOut(){
+        loginService.logOut("APP");
+        return new DataResult<>(DataResult.SUCCESS_CODE,DataResult.SUCCESS_MESSAGE);
+    }
+
     @ApiOperation("【App】注册用户")
     @PostMapping("register")
     public DataResult<LoginRepVO> registeredAccount(@RequestBody RegisteredAccountReqVO vo){

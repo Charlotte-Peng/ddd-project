@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.pj.metaverse.common.constant.SystemConstant;
 import org.pj.metaverse.common.constant.SystemDictionaryConstant;
 import org.pj.metaverse.common.constant.redis.SystemRedisConstant;
+import org.pj.metaverse.common.constant.redis.UserRedisConstant;
 import org.pj.metaverse.common.enums.ResponseEnum;
 import org.pj.metaverse.common.exception.ServerException;
 import org.pj.metaverse.event.common.annotation.EventLogAnnotation;
@@ -59,10 +60,10 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper, LoginEntity> impl
     @Override
     @EventLogAnnotation(EVENT_ENUM = EventEnum.USER_LOGIN)
     public LoginRepVO accountPasswordLoginV1(UserLoginReqVO vo) {
-        return this.checkPassword(vo.getUserName(), vo.getPassword());
+        return this.checkPassword(vo.getUserName(), vo.getPassword(),"APP");
     }
 
-    private LoginRepVO checkPassword (String userName,String passwordTemp){
+    private LoginRepVO checkPassword (String userName,String passwordTemp, String device){
         // 根据系统信息获取对应的盐
         String saltJson = systemFeign.getDictionary(SystemDictionaryConstant.USER_PASSWORD_SALT_KEY);
         Map map = JSONObject.parseObject(saltJson, Map.class);
@@ -81,7 +82,7 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper, LoginEntity> impl
             throw new ServerException(ResponseEnum.WRONG_ACCOUNT_OR_PASSWORD);
         }
         // 将当前的用户信息放到saToken中
-        StpUtil.login(loginEntity.getUserId());
+        StpUtil.login(loginEntity.getUserId(),device);
         // 查询用户的基本信息
         UserEntity userEntity = userMapper.selectById(loginEntity.getUserId());
         // 将当前用户的角色及权限返回给前端，同时返回token
@@ -95,6 +96,8 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper, LoginEntity> impl
         // 查询该用户的权限集合
         List<PermissionEntity> permissionList = permissionService.getPermissionList();
         data.setPermissionList(permissionList);
+        // 利用redis记录在线人数
+        stringRedisTemplate.opsForValue().setBit(UserRedisConstant.USER_ONLINE_NUM,userEntity.getUserNo(),true);
         return data;
     }
 
@@ -110,7 +113,7 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper, LoginEntity> impl
             // 验证码不对
             throw new ServerException(ResponseEnum.INCORRECT_VERIFICATION_CODE);
         }
-        return this.checkPassword(vo.getUserName(), vo.getPassword());
+        return this.checkPassword(vo.getUserName(), vo.getPassword(),"WEB");
     }
 
     @Override
@@ -197,5 +200,16 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper, LoginEntity> impl
         BeanUtils.copyProperties(vo,saveLogin);
         // 查询后台默认分配的角色
         return this.writeToDatabase(saveLogin,SystemDictionaryConstant.USER_ROLE_WEB_DEFAULT_TYPE,null);
+    }
+
+    @Override
+    public void logOut(String device) {
+        String loginId = StpUtil.getLoginIdAsString();
+        // 根据userId查询userNo
+        UserEntity userEntity = this.userMapper.selectById(loginId);
+        // 调用saToken退出
+        StpUtil.logout(loginId,device);
+        // redis清除该用户的信息
+        stringRedisTemplate.opsForValue().setBit(UserRedisConstant.USER_ONLINE_NUM,userEntity.getUserNo(),false);
     }
 }

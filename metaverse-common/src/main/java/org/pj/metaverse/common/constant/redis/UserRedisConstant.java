@@ -5,5 +5,7 @@ package org.pj.metaverse.common.constant.redis;
  * @date 11:43 2022/5/10
  **/
 public interface UserRedisConstant {
-    String USER_ROLE = ParentConstant.REDIS_NAME +"USER:ROLE";
+    String BASE_NAME = ParentConstant.REDIS_NAME +"USER:";
+    String USER_ROLE = BASE_NAME +"ROLE";
+    String USER_ONLINE_NUM = BASE_NAME +"ONLINE_NUM";
 }

@@ -41,6 +41,13 @@ public class MgmtLoginController {
         return new DataResult<>(DataResult.SUCCESS_CODE,DataResult.SUCCESS_MESSAGE,data);
     }
 
+    @ApiOperation(value = "【App】退出登录")
+    @PostMapping("logOut-v1")
+    public DataResult<Void> logOut(){
+        loginService.logOut("WEB");
+        return new DataResult<>(DataResult.SUCCESS_CODE,DataResult.SUCCESS_MESSAGE);
+    }
+
     @ApiOperation("【Web】注册用户")
     @PostMapping("register")
     public DataResult<LoginRepVO> webRegisteredAccount(@RequestBody WebRegisteredAccountReqVO vo){

@@ -53,4 +53,12 @@ public interface ILoginService extends IService<LoginEntity> {
      * @return org.pj.system.entity.repvo.LoginRepVO
      */
     LoginRepVO webRegisteredAccount(WebRegisteredAccountReqVO vo);
+
+    /**
+     * 退出登录
+     * @author pengjie
+     * @param device 设备类型 APP WEB
+     * @date 2022/5/27 14:02
+     */
+    void logOut(String device);
 }
