@@ -11,6 +11,12 @@
 
     <artifactId>metaverse-utils</artifactId>
 
+    <modules>
+        <module>workflow-utils</module>
+    </modules>
+
+    <packaging>pom</packaging>
+
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -27,16 +33,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-logging</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
         </dependency>
         <!--            fastjson-->
         <dependency>

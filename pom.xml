@@ -22,7 +22,6 @@
         <module>metaverse-lib</module>
         <module>metaverse-cloud-lib</module>
         <module>metaverse-common</module>
-        <module>metaverse-event-common</module>
         <module>metaverse-cache</module>
         <module>metaverse-codegen</module>
         <module>metaverse-datasource-monitor</module>
@@ -31,10 +30,7 @@
         <module>metaverse-event</module>
         <module>metaverse-execl</module>
         <module>metaverse-i18n</module>
-        <module>Metaverse-service-system</module>
-        <module>metaverse-service-user</module>
-        <module>metaverse-service-blog</module>
-        <module>metaverse-service-workflow</module>
+        <module>metaverse-service</module>
     </modules>
 
     <properties>
@@ -56,6 +52,7 @@
         <easy_captcha.version>1.6.2</easy_captcha.version>
         <hutool.version>5.8.1</hutool.version>
         <camunda.version>7.17.0</camunda.version>
+        <lombok.version>1.18.24</lombok.version>
     </properties>
 
     <dependencyManagement>
@@ -87,6 +84,23 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter</artifactId>
                 <version>${springBoot.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${springBoot.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-tomcat</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -239,15 +253,6 @@
 
         </dependencies>
     </dependencyManagement>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 
 </project>
