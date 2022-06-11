@@ -21,11 +21,11 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> implements IUserService {
-    private final StringRedisTemplate redisTemplate;
+    private final StringRedisTemplate stringRedisTemplate;
 
     @Override
     public Long getLineCount() {
         // 从redis中获取在线用户数量
-        return redisTemplate.execute((RedisCallback<Long>) connection -> connection.bitCount(UserRedisConstant.USER_ONLINE_NUM.getBytes()));
+        return stringRedisTemplate.execute((RedisCallback<Long>) connection -> connection.bitCount(UserRedisConstant.USER_ONLINE_NUM.getBytes()));
     }
 }

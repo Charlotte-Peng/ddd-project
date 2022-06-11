@@ -3,11 +3,30 @@ server:
   servlet:
     context-path:
   forward-headers-strategy: none
+  undertow:
+    accesslog:
+      enabled: false
+      dir: logs
+    threads:
+      # 设置IO线程数, 它主要执行非阻塞的任务,它们会负责多个连接, 默认设置每个CPU核心一个线程
+      # 不要设置过大，如果过大，启动项目会报错：打开文件数过多
+      io: 16
+      # 阻塞任务线程池, 当执行类似servlet请求阻塞IO操作, undertow会从这个线程池中取得线程
+      # 它的值设置取决于系统线程执行任务的阻塞系数，默认值是IO线程数*8
+      worker: 256
+    # 以下的配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理
+    # 每块buffer的空间大小,越小的空间被利用越充分，不要设置太大，以免影响其他应用，合适即可
+    buffer-size: 1024
+    # 是否分配的直接内存(NIO直接分配的堆外内存)
+    direct-buffers: true
 
 
 spring:
   application:
     name: metaverse-service-blog
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   cloud:
     nacos:
       discovery:
@@ -47,10 +66,10 @@ spring:
       remove-abandoned-timeout: 100
       filters: stat,slf4j
   redis:
-    password: $ZyF_8861-78Z
+    password: Zyf88617866
     cluster:
       #设置redis集群的节点信息，其中namenode为域名解析，通过解析域名来获取相应的地址;
-      nodes: 10.8.8.5:6379,10.8.8.5:6380,10.8.8.5:6381
+      nodes: 10.8.8.5:7001,10.8.8.5:7002,10.8.8.5:7003
     jedis:
       pool:
         max-idle: 8

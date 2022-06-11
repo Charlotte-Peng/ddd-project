@@ -27,7 +27,6 @@ import org.pj.metaverse.common.entity.BaseEntity;
 public class LoginEntity extends BaseEntity {
 
     @ApiModelProperty("用户id")
-    @TableId(value = "user_id", type = IdType.INPUT)
     private String userId;
 
     @ApiModelProperty("登陆账号")

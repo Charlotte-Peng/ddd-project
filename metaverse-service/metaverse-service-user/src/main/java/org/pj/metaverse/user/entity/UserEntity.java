@@ -29,7 +29,6 @@ import java.time.LocalDate;
 public class UserEntity extends BaseEntity {
 
     @ApiModelProperty("用户id")
-    @TableId(value = "user_id", type = IdType.INPUT)
     private String userId;
 
     @ApiModelProperty("用户编号")

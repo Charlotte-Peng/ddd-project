@@ -25,6 +25,10 @@ import lombok.experimental.Accessors;
 @ApiModel(value = "UserRoleEntity对象", description = "")
 public class UserRoleEntity {
 
+    @ApiModelProperty(value = "主键id")
+    @TableId(type = IdType.AUTO)
+    private Integer id;
+
     @ApiModelProperty("角色id")
     @TableField("role_id")
     private Integer roleId;

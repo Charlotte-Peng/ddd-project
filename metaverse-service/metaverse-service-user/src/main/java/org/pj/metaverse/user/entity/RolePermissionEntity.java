@@ -25,6 +25,10 @@ import lombok.experimental.Accessors;
 @ApiModel(value = "RolePermissionEntity对象", description = "")
 public class RolePermissionEntity {
 
+    @ApiModelProperty(value = "主键id")
+    @TableId(type = IdType.AUTO)
+    private Integer id;
+
     @ApiModelProperty("权限id")
     @TableField("permission_id")
     private Integer permissionId;
