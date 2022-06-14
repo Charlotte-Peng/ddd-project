@@ -7,11 +7,20 @@ import org.pj.metaverse.common.exception.ServerException;
 import org.pj.metaverse.common.result.DataResult;
 import org.pj.metaverse.common.enums.ResponseEnum;
 import org.pj.metaverse.user.entity.PermissionEntity;
+import org.pj.metaverse.user.entity.RoleEntity;
+import org.pj.metaverse.user.entity.RolePermissionEntity;
+import org.pj.metaverse.user.entity.UserRoleEntity;
 import org.pj.metaverse.user.mapper.PermissionMapper;
+import org.pj.metaverse.user.repository.redis.PermissionRepositoryRedis;
+import org.pj.metaverse.user.repository.redis.RolePermissionRepositoryRedis;
+import org.pj.metaverse.user.repository.redis.UserRoleRepositoryRedis;
 import org.pj.metaverse.user.service.IPermissionService;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -24,13 +33,26 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, PermissionEntity> implements IPermissionService {
-    private final PermissionMapper permissionMapper;
+//    private final PermissionMapper permissionMapper;
+    private final PermissionRepositoryRedis permissionRepositoryRedis;
+    private final UserRoleRepositoryRedis userRoleRepositoryRedis;
+    private final RolePermissionRepositoryRedis rolePermissionRepositoryRedis;
 
     @Override
     public List<PermissionEntity> getPermissionList() {
         // 获取当前人登录id
         String loginId = StpUtil.getLoginIdAsString();
-        return permissionMapper.getPermissionList(loginId);
+        List<UserRoleEntity> list = userRoleRepositoryRedis.findUserRoleEntitiesByUserId(loginId);
+
+        List<Integer> roleIds = list.stream().map(UserRoleEntity::getRoleId).toList();
+        List<RolePermissionEntity> rolePermissionEntitiesByRoleIdIn = rolePermissionRepositoryRedis.findRolePermissionEntitiesByRoleIdIn(roleIds);
+        Set<Integer> permissionIdsSet = new HashSet<>(rolePermissionEntitiesByRoleIdIn.stream().map(RolePermissionEntity::getPermissionId).toList());
+        List<PermissionEntity> permissionEntities = permissionRepositoryRedis.findPermissionEntitiesByIdIn(permissionIdsSet);
+        if (permissionEntities.isEmpty()) {
+            throw new ServerException(ResponseEnum.DATA_DOES_NOT_EXIST);
+        }
+//        permissionMapper.getPermissionList(loginId)
+        return permissionEntities;
     }
 
     @Override

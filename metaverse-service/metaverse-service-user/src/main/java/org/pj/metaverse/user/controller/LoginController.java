@@ -6,8 +6,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.pj.metaverse.common.enums.ResponseEnum;
 import org.pj.metaverse.common.result.DataResult;
-import org.pj.metaverse.event.common.annotation.EventLogAnnotation;
-import org.pj.metaverse.event.common.enums.EventEnum;
 import org.pj.metaverse.user.entity.repvo.LoginRepVO;
 import org.pj.metaverse.user.entity.reqvo.RegisteredAccountReqVO;
 import org.pj.metaverse.user.entity.reqvo.UserLoginReqVO;

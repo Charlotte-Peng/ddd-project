@@ -1,3 +1,4 @@
+/*
 package org.pj.metaverse.cache.utils;
 
 import com.alibaba.fastjson.JSON;
@@ -14,22 +15,26 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import javax.annotation.Resource;
 import java.util.List;
 
+*/
 /**
  * @author pengjie
  * @date 15:10 2022/6/1
- **/
+ **//*
+
 
 public class RedisJsonTemplate extends StringRedisTemplate {
 
 
-    /**
+    */
+/**
      * 调用自增等方法的例子，json如下
      * {
      *     "id": 3,
      *     "name": "test"
      * }
      * @date 2022/6/6 11:45
-     */
+     *//*
+
     public final String pathExample = "$.id";
 
     public final String defaultPath = ".";
@@ -131,3 +136,4 @@ public class RedisJsonTemplate extends StringRedisTemplate {
     }
 
 }
+*/

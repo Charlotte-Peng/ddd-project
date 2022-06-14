@@ -53,6 +53,7 @@
         <hutool.version>5.8.1</hutool.version>
         <camunda.version>7.17.0</camunda.version>
         <lombok.version>1.18.24</lombok.version>
+        <ulid.version>8.3.0</ulid.version>
     </properties>
 
     <dependencyManagement>
@@ -105,7 +106,6 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-devtools</artifactId>
-                <version>${springBoot.version}</version>
                 <scope>runtime</scope>
                 <optional>true</optional>
             </dependency>
@@ -241,6 +241,7 @@
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
             </dependency>
+            <!--            工作流依赖-->
             <dependency>
                 <groupId>org.camunda.bpm</groupId>
                 <artifactId>camunda-bom</artifactId>
@@ -248,11 +249,35 @@
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
+            <!--            JPA使用redis做orm-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-jpa</artifactId>
+                <version>${springBoot.version}</version>
+            </dependency>
+            <!--            代替uuid,新工具ulid-->
+            <dependency>
+                <groupId>de.huxhorn.sulky</groupId>
+                <artifactId>de.huxhorn.sulky.ulid</artifactId>
+                <version>${ulid.version}</version>
+            </dependency>
 
 
 
         </dependencies>
     </dependencyManagement>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.4.2</version>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

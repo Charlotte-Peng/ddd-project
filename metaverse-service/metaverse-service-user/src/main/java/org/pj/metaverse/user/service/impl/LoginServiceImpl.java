@@ -6,6 +6,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import de.huxhorn.sulky.ulid.ULID;
 import lombok.RequiredArgsConstructor;
 import org.pj.metaverse.common.constant.SystemConstant;
 import org.pj.metaverse.common.constant.SystemDictionaryConstant;
@@ -13,6 +14,7 @@ import org.pj.metaverse.common.constant.redis.SystemRedisConstant;
 import org.pj.metaverse.common.constant.redis.UserRedisConstant;
 import org.pj.metaverse.common.enums.ResponseEnum;
 import org.pj.metaverse.common.exception.ServerException;
+import org.pj.metaverse.common.utils.AsyncUtils;
 import org.pj.metaverse.event.common.annotation.EventLogAnnotation;
 import org.pj.metaverse.event.common.enums.EventEnum;
 import org.pj.metaverse.user.entity.LoginEntity;
@@ -26,6 +28,8 @@ import org.pj.metaverse.user.entity.reqvo.WebUserLoginReqVO;
 import org.pj.metaverse.user.feign.SystemFeign;
 import org.pj.metaverse.user.mapper.LoginMapper;
 import org.pj.metaverse.user.mapper.UserMapper;
+import org.pj.metaverse.user.repository.redis.LoginRepositoryRedis;
+import org.pj.metaverse.user.repository.redis.UserRepositoryRedis;
 import org.pj.metaverse.user.service.ILoginService;
 import org.pj.metaverse.user.service.IPermissionService;
 import org.pj.metaverse.user.service.IUserRoleService;
@@ -35,6 +39,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -53,9 +58,12 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper, LoginEntity> impl
     private final SystemFeign systemFeign;
     private final IPermissionService permissionService;
     private final StringRedisTemplate stringRedisTemplate;
-    private IdWorker idWorker;
     private final UserMapper userMapper;
     private final IUserRoleService userRoleService;
+    private final LoginRepositoryRedis loginRepositoryRedis;
+    private final UserRepositoryRedis userRepositoryRedis;
+    private final ULID ulid;
+    private final AsyncUtils asyncUtils;
 
     @Override
     @EventLogAnnotation(EVENT_ENUM = EventEnum.USER_LOGIN)
@@ -119,29 +127,46 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper, LoginEntity> impl
     @Override
     public LoginRepVO registeredAccount(RegisteredAccountReqVO vo) {
         // 根据不同类型查询是否有该用户注册了
-        LambdaQueryWrapper<LoginEntity> wrapper = new LambdaQueryWrapper<>();
+//        LambdaQueryWrapper<LoginEntity> wrapper = new LambdaQueryWrapper<>();
+        LoginEntity loginEntity = null;
         if (vo.getType().equals(RegisteredAccountReqVO.TYPE_EMAIL)){
-            wrapper.eq(LoginEntity::getLoginEmail,vo.getLoginEmail());
+            loginEntity = loginRepositoryRedis.findByLoginEmail(vo.getLoginEmail());
+//            wrapper.eq(LoginEntity::getLoginEmail,vo.getLoginEmail());
         }
         if (vo.getType().equals(RegisteredAccountReqVO.TYPE_PHONE)){
-            wrapper.eq(LoginEntity::getLoginPhone,vo.getLoginPhone());
+            loginEntity = loginRepositoryRedis.findByLoginPhone(vo.getLoginPhone());
+//            wrapper.eq(LoginEntity::getLoginPhone,vo.getLoginPhone());
         }
         if (vo.getType().equals(RegisteredAccountReqVO.TYPE_NAME)){
-            wrapper.eq(LoginEntity::getLoginName,vo.getLoginName());
+            loginEntity = loginRepositoryRedis.findByLoginName(vo.getLoginName());
+//            wrapper.eq(LoginEntity::getLoginName,vo.getLoginName());
         }
-        wrapper.last("limit 1");
-        long aLong = this.count(wrapper);
-        if (aLong != 0){
+//        wrapper.last("limit 1");
+//        long aLong = this.count(wrapper);
+        if (loginEntity != null){
             throw new ServerException(ResponseEnum.THIS_ACCOUNT_HAS_BEEN_REGISTERED);
         }
-        // 写入到数据库
+        // 注册到redis中
         LoginEntity saveLogin = new LoginEntity();
         BeanUtils.copyProperties(vo,saveLogin);
+
+        // 用户密码加密
+//        saveLogin.setLoginPassword(SaSecureUtil.md5BySalt(vo.getLoginPassword(),""));
+
+        // 异步写入到数据库
+        asyncUtils.exec(() -> {
+            boolean save = this.save(saveLogin);
+            if (!save){
+                log.error("注册失败");
+            }
+        });
+
+
         return this.writeToDatabase(saveLogin,SystemDictionaryConstant.USER_ROLE_APP_DEFAULT_TYPE,null);
     }
 
     private LoginRepVO writeToDatabase(LoginEntity saveLogin,Integer type, Integer roleId){
-        String userId = String.valueOf(idWorker.nextId());
+        String userId = ulid.nextULID();
         // 根据系统信息获取对应的盐
         String saltJson = systemFeign.getDictionary(SystemDictionaryConstant.USER_PASSWORD_SALT_KEY);
         Map map = JSONObject.parseObject(saltJson, Map.class);
@@ -149,10 +174,16 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper, LoginEntity> impl
         String password = SaSecureUtil.md5BySalt(saveLogin.getLoginPassword(), salt);
         saveLogin.setUserId(userId);
         saveLogin.setLoginPassword(password);
-        boolean save = this.save(saveLogin);
-        if (!save){
-            throw new ServerException(ResponseEnum.SYSTEM_ERROR);
-        }
+        saveLogin.setCreateTime(LocalDateTime.now());
+        loginRepositoryRedis.save(saveLogin);
+        // 异步写入到数据库
+        asyncUtils.exec(() -> {
+            boolean save = this.save(saveLogin);
+            if (!save){
+                log.error("注册失败");
+                throw new ServerException(ResponseEnum.SYSTEM_ERROR);
+            }
+        });
         // 写入用户的信息
         UserEntity userEntity = new UserEntity();
         userEntity.setUserId(userId);
@@ -166,10 +197,14 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper, LoginEntity> impl
             userEntity.setUserNickName(name);
         }
         // 写入用户信息
-        int insert = userMapper.insert(userEntity);
-        if (insert != 1){
-            throw new ServerException(ResponseEnum.SYSTEM_ERROR);
-        }
+        userRepositoryRedis.save(userEntity);
+        asyncUtils.exec(() -> {
+            int insert = userMapper.insert(userEntity);
+            if (insert != 1){
+                log.error("注册失败");
+                throw new ServerException(ResponseEnum.SYSTEM_ERROR);
+            }
+        });
         // 绑定角色
         userRoleService.roleBinding(userId,type,roleId);
         // 将当前的用户信息放到saToken中

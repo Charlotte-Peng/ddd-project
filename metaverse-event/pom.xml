@@ -12,8 +12,8 @@
     <artifactId>metaverse-event</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>service-event</module>
-        <module>common-event</module>
+        <module>metaverse-event-common</module>
+        <module>metaverse-event-service</module>
     </modules>
 
     <properties>

@@ -6,9 +6,11 @@ import lombok.RequiredArgsConstructor;
 import org.pj.metaverse.common.constant.SystemDictionaryConstant;
 import org.pj.metaverse.common.enums.ResponseEnum;
 import org.pj.metaverse.common.exception.ServerException;
+import org.pj.metaverse.common.utils.AsyncUtils;
 import org.pj.metaverse.user.entity.UserRoleEntity;
 import org.pj.metaverse.user.feign.SystemFeign;
 import org.pj.metaverse.user.mapper.UserRoleMapper;
+import org.pj.metaverse.user.repository.redis.UserRoleRepositoryRedis;
 import org.pj.metaverse.user.service.IUserRoleService;
 import org.pj.metaverse.common.utils.NvlUtils;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRoleEntity> implements IUserRoleService {
     private final SystemFeign systemFeign;
+    private final UserRoleRepositoryRedis userRoleRepositoryRedis;
+    private final AsyncUtils asyncUtils;
 
     @Override
     public void roleBinding(String userId, Integer type, Integer roleId) {
@@ -44,9 +48,13 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRoleEnt
         UserRoleEntity saveEntity = new UserRoleEntity();
         saveEntity.setUserId(userId);
         saveEntity.setRoleId(roleId);
-        boolean save = this.save(saveEntity);
-        if (!save){
-            throw new ServerException(ResponseEnum.SYSTEM_ERROR);
-        }
+        userRoleRepositoryRedis.save(saveEntity);
+        asyncUtils.exec(() -> {
+            boolean save = this.save(saveEntity);
+            if (!save){
+                log.error("保存用户角色失败");
+                throw new ServerException(ResponseEnum.SYSTEM_ERROR);
+            }
+        });
     }
 }
