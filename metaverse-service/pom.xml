@@ -57,6 +57,11 @@
             <artifactId>metaverse-event-common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <!--        sql版本管理工具-->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
