@@ -23,11 +23,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @TableName("group_role")
 @ApiModel(value = "GroupRoleEntity对象", description = "")
-public class GroupRoleEntity {
-
-    @ApiModelProperty(value = "主键id")
-    @TableId(type = IdType.AUTO)
-    private Integer id;
+public class GroupRoleEntity extends BaseEntity {
 
     @ApiModelProperty("分组id")
     @TableField("group_id")
@@ -36,6 +32,5 @@ public class GroupRoleEntity {
     @ApiModelProperty("角色id")
     @TableField("role_id")
     private Integer roleId;
-
 
 }

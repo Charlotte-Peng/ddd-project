@@ -31,12 +31,7 @@ import javax.persistence.Id;
 @ApiModel(value = "UserRoleEntity对象", description = "")
 @Entity
 @RedisHash(ServiceNameConstant.SERVICE_NAME_USER+":"+"UserRoleEntity")
-public class UserRoleEntity {
-
-    @Id
-    @ApiModelProperty(value = "主键id")
-    @TableId(type = IdType.AUTO)
-    private Integer id;
+public class UserRoleEntity extends BaseEntity {
 
     @Indexed
     @ApiModelProperty("角色id")

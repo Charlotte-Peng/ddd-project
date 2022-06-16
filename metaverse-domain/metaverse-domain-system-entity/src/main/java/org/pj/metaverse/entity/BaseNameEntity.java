@@ -26,39 +26,13 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @TableName("base_name")
 @ApiModel(value = "BaseNameEntity对象", description = "系统通用昵称")
-public class BaseNameEntity {
-
-    @ApiModelProperty("主键id")
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+public class BaseNameEntity extends BaseEntity {
 
     @ApiModelProperty("名字")
     @TableField("`name`")
     private String name;
 
-    @ApiModelProperty("创建人")
-    @TableField("create_by")
-    private String createBy;
-
-    @ApiModelProperty("创建时间")
-    @TableField(value = "create_time", fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
-
-    @ApiModelProperty("修改人")
-    @TableField("update_by")
-    private String updateBy;
-
-    @ApiModelProperty("修改时间")
-    @TableField(value = "update_time", fill = FieldFill.UPDATE)
-    private LocalDateTime updateTime;
-
     @ApiModelProperty("类型 1:用户昵称")
     @TableField("`type`")
     private Integer type;
-
-    @ApiModelProperty("逻辑删除 Y/N")
-    @TableField("deleted")
-    @TableLogic
-    private String deleted;
-
 }

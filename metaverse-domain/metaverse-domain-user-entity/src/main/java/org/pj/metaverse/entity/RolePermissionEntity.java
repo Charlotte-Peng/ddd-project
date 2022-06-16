@@ -33,13 +33,7 @@ import javax.persistence.Id;
 @ApiModel(value = "RolePermissionEntity对象", description = "")
 @Entity
 @RedisHash(ServiceNameConstant.SERVICE_NAME_USER+":"+"RolePermissionEntity")
-public class RolePermissionEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ApiModelProperty(value = "主键id")
-    @TableId(type = IdType.AUTO)
-    private Integer id;
+public class RolePermissionEntity extends BaseEntity {
 
     @Indexed
     @ApiModelProperty("权限id")
@@ -50,6 +44,5 @@ public class RolePermissionEntity {
     @ApiModelProperty("角色id")
     @TableField("role_id")
     private Integer roleId;
-
 
 }

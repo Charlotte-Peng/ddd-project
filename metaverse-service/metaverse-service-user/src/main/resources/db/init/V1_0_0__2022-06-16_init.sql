@@ -17,6 +17,11 @@ CREATE TABLE IF NOT EXISTS `group_role`  (
     `tenant_id` varchar(30) NULL DEFAULT NULL COMMENT '租户id',
     `group_id` int NULL DEFAULT NULL COMMENT '分组id',
     `role_id` int NULL DEFAULT NULL COMMENT '角色id',
+    `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '创建人',
+    `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+    `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '修改人',
+    `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
+    `deleted` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '是否删除',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
@@ -75,6 +80,11 @@ CREATE TABLE IF NOT EXISTS `role_permission`  (
     `tenant_id` varchar(30) NULL DEFAULT NULL COMMENT '租户id',
     `permission_id` int NULL DEFAULT NULL COMMENT '权限id',
     `role_id` int NULL DEFAULT NULL COMMENT '角色id',
+    `create_by` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '创建人',
+    `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+    `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '修改人',
+    `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
+    `deleted` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'N' COMMENT '是否删除 Y/N',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
@@ -103,5 +113,10 @@ CREATE TABLE IF NOT EXISTS `user_role`  (
     `tenant_id` varchar(30) NULL DEFAULT NULL COMMENT '租户id',
     `role_id` int NULL DEFAULT NULL COMMENT '角色id',
     `user_id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户id',
+    `create_by` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '创建人',
+    `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+    `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '修改人',
+    `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
+    `deleted` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'N' COMMENT '是否删除 Y/N',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
