@@ -26,7 +26,7 @@
         <!-- 日志默认切割的最小单位 -->
         <property name="every_file_size">50MB</property>
         <!-- 日志默认输出级别 -->
-        <property name="output_log_level">DEBUG</property>
+        <property name="output_log_level">INFO</property>
 
         <!-- ===========================================所有级别日志配置=========================================== -->
         <!-- 日志默认存放路径(所有级别日志) -->
@@ -90,7 +90,7 @@
 
         <!-- ============================================控制台显示控制============================================ -->
         <!-- 控制台显示的日志最低级别 -->
-        <property name="console_print_level">DEBUG</property>
+        <property name="console_print_level">INFO</property>
 
     </Properties>
 
