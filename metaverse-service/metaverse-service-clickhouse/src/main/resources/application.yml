@@ -1,0 +1,109 @@
+#端口
+server:
+  port: 8084
+  servlet:
+    context-path:
+  forward-headers-strategy: none
+  undertow:
+    accesslog:
+      enabled: false
+      dir: logs
+    threads:
+      # 设置IO线程数, 它主要执行非阻塞的任务,它们会负责多个连接, 默认设置每个CPU核心一个线程
+      # 不要设置过大，如果过大，启动项目会报错：打开文件数过多
+      io: 16
+      # 阻塞任务线程池, 当执行类似servlet请求阻塞IO操作, undertow会从这个线程池中取得线程
+      # 它的值设置取决于系统线程执行任务的阻塞系数，默认值是IO线程数*8
+      worker: 256
+    # 以下的配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理
+    # 每块buffer的空间大小,越小的空间被利用越充分，不要设置太大，以免影响其他应用，合适即可
+    buffer-size: 1024
+    # 是否分配的直接内存(NIO直接分配的堆外内存)
+    direct-buffers: true
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  application:
+    name: metaverse-service-clickhouse #注册名称
+  cloud:
+    nacos:
+      discovery:
+        namespace: dev
+        server-addr: 10.8.8.5:8848 #nacos中心地址
+    inetutils:
+      ignored-interfaces: Realtek*
+      preferred-networks: 10.8.10
+  datasource:
+    druid:
+      driver-class-name: ru.yandex.clickhouse.ClickHouseDriver
+      url: jdbc:clickhouse://10.8.8.5:8123/default
+      username: default
+      password: root
+      maxWait: 60000
+      connect-properties:
+        socketTimeout: 30000
+        connectTimeout: 12000
+      maxActive: 50
+      initial-size: 10
+      min-idle: 10
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 30000
+      max-evictable-idle-time-millis: 180000
+      phy-timeout-millis: 15000
+      validation-query: select 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-open-prepared-statements: 20
+      use-global-data-source-stat: true
+      keepAlive: true
+      remove-abandoned: true
+      remove-abandoned-timeout: 100
+      filters: stat,slf4j
+logging:
+  config: classpath:log4j2-dev.xml
+  level:
+    cn.jay.repository: trace
+knife4j:
+  # 开启增强配置
+  enable: true
+  # 开启生产环境屏蔽
+  production: false
+swagger3:
+  enable: true
+  title: Metaverse
+  description: Metaverse api document
+  authHeaderKey: X-Meta_verse-token
+project:
+  # 项目名称
+  name: Metaverse
+  # 默认租户id
+  tenantId: 19980105
+#配置mybatis
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: org.pj.metaverse.*
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-value: Y # 逻辑已删除值
+      logic-not-delete-value: N # 逻辑未删除值
+#prometheus+grafana+springboot2监控集成配置
+management:
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+      jmx:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+      base-path: /metrics
+  endpoint:
+    env:
+      enabled: true

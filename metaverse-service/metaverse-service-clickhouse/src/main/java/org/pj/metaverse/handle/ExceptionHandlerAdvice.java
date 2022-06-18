@@ -1,13 +1,8 @@
 package org.pj.metaverse.handle;
 
-import cn.dev33.satoken.exception.DisableLoginException;
-import cn.dev33.satoken.exception.NotLoginException;
-import cn.dev33.satoken.exception.NotPermissionException;
-import cn.dev33.satoken.exception.NotRoleException;
+
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-import com.netflix.client.ClientException;
 import lombok.extern.slf4j.Slf4j;
-import org.pj.metaverse.enums.ResponseEnum;
 import org.pj.metaverse.exception.ServerException;
 import org.pj.metaverse.result.DataResult;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -62,35 +57,7 @@ public class ExceptionHandlerAdvice {
                 return new DataResult<>(500,"日期格式错误！请传入正确的格式！");
             }
         }
-        return new DataResult<>(ResponseEnum.PLEASE_CHECK_THE_INCOMING_FORMAT);
-    }
-
-    // SaToken 全局异常拦截（拦截项目中的所有异常）
-    @ResponseBody
-    @ExceptionHandler({NotRoleException.class, NotPermissionException.class, NotLoginException.class, DisableLoginException.class})
-    public DataResult<Void> handlerException(Exception e, HttpServletRequest request, HttpServletResponse response){
-        DataResult<Void> dataResult;
-        if (e instanceof NotLoginException ee) {
-            // 如果是未登录异常
-            dataResult = new DataResult<>(DataResult.ERROR_CODE,ee.getMessage());
-        }
-        else if(e instanceof NotRoleException ee) {
-            // 如果是角色异常
-            dataResult = new DataResult<>(DataResult.ERROR_CODE,"无此角色：" + ee.getRole());
-        }
-        else if(e instanceof NotPermissionException ee) {
-            // 如果是权限异常
-            dataResult = new DataResult<>(DataResult.ERROR_CODE,"无此权限：" + ee.getCode());
-        }
-        else if(e instanceof DisableLoginException ee) {
-            // 如果是被封禁异常
-            dataResult = new DataResult<>(DataResult.ERROR_CODE,"账号被封禁：" + ee.getDisableTime() + "秒后解封");
-        }
-        else {	// 普通异常, 输出：500 + 异常信息
-            dataResult = DataResult.error();
-        }
-        // 返回给前端
-        return dataResult;
+        return new DataResult<>(DataResult.ERROR_CODE,"前端传入的信息有误！");
     }
 
     @ResponseBody
@@ -104,26 +71,6 @@ public class ExceptionHandlerAdvice {
         dataResult = DataResult.error();
         // 返回给前端
         return dataResult;
-    }
-
-    @ExceptionHandler(value = RuntimeException.class)
-    @ResponseBody
-    public DataResult<Void> serviceNotFound(RuntimeException e){
-        if (e.getCause() instanceof ClientException exception) {
-            log.error(exception.getMessage(),exception);
-            String message = exception.getMessage();
-            int i = message.lastIndexOf(':');
-            if (i != -1){
-                String substring = message.substring(i+1);
-                return new DataResult<>(500,"服务未找到,服务名"+substring);
-            }else {
-                log.error(e.getMessage(),e);
-                return DataResult.error();
-            }
-        }else {
-            log.error(e.getMessage(),e);
-            return DataResult.error();
-        }
     }
 
 }
