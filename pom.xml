@@ -54,6 +54,7 @@
         <camunda.version>7.17.0</camunda.version>
         <lombok.version>1.18.24</lombok.version>
         <ulid.version>8.3.0</ulid.version>
+        <bean-searcher.version>3.7.1</bean-searcher.version>
     </properties>
 
     <dependencyManagement>
@@ -260,6 +261,12 @@
                 <groupId>de.huxhorn.sulky</groupId>
                 <artifactId>de.huxhorn.sulky.ulid</artifactId>
                 <version>${ulid.version}</version>
+            </dependency>
+            <!--            Bean Searcher检索工具-->
+            <dependency>
+                <groupId>com.ejlchina</groupId>
+                <artifactId>bean-searcher-boot-starter</artifactId>
+                <version>${bean-searcher.version}</version>
             </dependency>
 
 

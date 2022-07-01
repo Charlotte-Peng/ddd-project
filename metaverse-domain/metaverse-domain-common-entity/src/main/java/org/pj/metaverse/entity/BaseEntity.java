@@ -1,6 +1,9 @@
 package org.pj.metaverse.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.ejlchina.searcher.bean.DbField;
+import com.ejlchina.searcher.bean.DbIgnore;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.data.redis.core.index.Indexed;
@@ -68,5 +71,6 @@ public class BaseEntity implements Serializable {
     @Indexed
     @ApiModelProperty(value = "排序规则",hidden = true)
     @TableField(exist = false)
+    @DbIgnore
     private String orderBy;
 }
