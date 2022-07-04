@@ -48,5 +48,3 @@ service-playbook.yml
 ###  忽略启动配置及sh  ####
 *.sh
 **/*.sh
-!**/src/main/resources/bootstrap.propertiesbootstrap.properties
-bootstrap.properties
