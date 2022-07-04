@@ -29,7 +29,7 @@ public class MybatisPlusGeneratorApplication {
     private static final String ADDRESS = "10.8.8.4";
     private static final String PORT = "3306";
     private static final String ARG = "useUnicode=true&useSSL=false&characterEncoding=utf8";
-    private static final String PACKAGE_ADDRESS = "org.pj.";
+    private static final String PACKAGE_ADDRESS = "org.pj";
     public static final String DRIVER_CLASS_NAME = "com.mysql.cj.jdbc.Driver";
 
     public static final String USER_NAME = "root";
@@ -57,8 +57,8 @@ public class MybatisPlusGeneratorApplication {
         GlobalConfig globalConfig = initGlobalConfig(projectName);
         mpg.global(globalConfig);
         // 初始化包配置
-        String packageName = scanner("模块名");
-        PackageConfig packageConfig = initPackageConfig(projectName, packageName);
+//        String packageName = scanner("模块名");
+        PackageConfig packageConfig = initPackageConfig(projectName);
         mpg.packageInfo(packageConfig);
         if("0".equals(type)){
             // 策略配置
@@ -106,16 +106,16 @@ public class MybatisPlusGeneratorApplication {
                 .build();
     }
 
-    private PackageConfig initPackageConfig(String projectName, String moduleName) {
+    private PackageConfig initPackageConfig(String projectName) {
         String projectPath = System.getProperty("user.dir");
         String mavenPath = "\\src\\main\\java\\";
         String srcPath = projectPath + "/" + projectName + mavenPath;
         Map<String, String> packageInfo = new HashMap<>(5);
-        packageInfo.put(ConstVal.CONTROLLER, PACKAGE_ADDRESS + moduleName + ".controller");
-        packageInfo.put(ConstVal.SERVICE, PACKAGE_ADDRESS + moduleName + ".service");
-        packageInfo.put(ConstVal.SERVICE_IMPL, PACKAGE_ADDRESS + moduleName + ".service.impl");
-        packageInfo.put(ConstVal.ENTITY, PACKAGE_ADDRESS + moduleName + ".entity");
-        packageInfo.put(ConstVal.MAPPER, PACKAGE_ADDRESS + moduleName + ".mapper");
+        packageInfo.put(ConstVal.CONTROLLER, PACKAGE_ADDRESS  + ".controller");
+        packageInfo.put(ConstVal.SERVICE, PACKAGE_ADDRESS  + ".service");
+        packageInfo.put(ConstVal.SERVICE_IMPL, PACKAGE_ADDRESS  + ".service.impl");
+        packageInfo.put(ConstVal.ENTITY, PACKAGE_ADDRESS  + ".entity");
+        packageInfo.put(ConstVal.MAPPER, PACKAGE_ADDRESS  + ".mapper");
         Map<OutputFile, String> pathInfo = new HashMap<>(6);
         pathInfo.put(OutputFile.controller, srcPath + packageInfo.get(ConstVal.CONTROLLER).replaceAll("\\.", StringPool.BACK_SLASH + File.separator));
         pathInfo.put(OutputFile.service, srcPath + packageInfo.get(ConstVal.SERVICE).replaceAll("\\.", StringPool.BACK_SLASH + File.separator));
@@ -125,7 +125,7 @@ public class MybatisPlusGeneratorApplication {
         pathInfo.put(OutputFile.mapperXml, projectName + "\\src\\main\\resources\\mapper\\");
         return new PackageConfig.Builder()
                 .parent(PACKAGE_ADDRESS.substring(0,PACKAGE_ADDRESS.length()-1))
-                .moduleName(moduleName)
+//                .moduleName(null)
                 .entity("entity")
                 .service("service")
                 .serviceImpl("service.impl")
