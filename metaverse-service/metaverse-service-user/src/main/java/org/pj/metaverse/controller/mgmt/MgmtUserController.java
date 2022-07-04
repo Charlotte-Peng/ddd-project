@@ -1,5 +1,6 @@
 package org.pj.metaverse.controller.mgmt;
 
+import com.ejlchina.searcher.BeanSearcher;
 import com.ejlchina.searcher.MapSearcher;
 import com.ejlchina.searcher.SearchResult;
 import com.ejlchina.searcher.util.MapUtils;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,10 +30,10 @@ import java.util.Map;
 @Api(tags = "用户管理相关接口")
 public class MgmtUserController {
     private final IUserService userService;
-    private final MapSearcher mapSearcher;
+    private final BeanSearcher beanSearcher;
     @GetMapping
-    public DataResult<SearchResult<Map<String, Object>>> getUserInfo(HttpServletRequest request) {
-        SearchResult<Map<String, Object>> search = mapSearcher.search(UserRoleInfoRepVO.class, MapUtils.flat(request.getParameterMap()));
+    public DataResult<SearchResult<UserRoleInfoRepVO>> getUserInfo(HttpServletRequest request) {
+        SearchResult<UserRoleInfoRepVO> search = beanSearcher.search(UserRoleInfoRepVO.class, MapUtils.flat(request.getParameterMap()));
         return new DataResult<>(ResponseEnum.SUCCESS,search);
     }
 }
