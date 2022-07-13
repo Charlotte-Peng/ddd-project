@@ -152,7 +152,7 @@ public class MybatisPlusGeneratorApplication {
                 // 实体
                 .entityBuilder()
                 // 禁用生成 serialVersionUID
-                .disableSerialVersionUID()
+//                .disableSerialVersionUID()
                 // 开启链式模型
                 .enableChainModel()
                 // 开启 lombok 模型
@@ -160,7 +160,7 @@ public class MybatisPlusGeneratorApplication {
                 // 开启 Boolean 类型字段移除 is 前缀
                 .enableRemoveIsPrefix()
                 // 开启生成实体时生成字段注解
-                .enableTableFieldAnnotation()
+//                .enableTableFieldAnnotation()
                 // 乐观锁字段名(数据库)
                 .versionColumnName("version")
                 // 乐观锁属性名(实体)
@@ -183,6 +183,8 @@ public class MybatisPlusGeneratorApplication {
                 .idType(IdType.AUTO)
                 // 格式化文件名称
                 .formatFileName("%sEntity")
+                .controllerBuilder()
+                .enableRestStyle()
                 .build();
     }
 

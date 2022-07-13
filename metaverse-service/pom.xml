@@ -15,6 +15,7 @@
         <module>metaverse-service-user</module>
         <module>metaverse-service-system</module>
         <module>metaverse-service-clickhouse</module>
+        <module>metaverse-service-wallet</module>
     </modules>
 
     <packaging>pom</packaging>
