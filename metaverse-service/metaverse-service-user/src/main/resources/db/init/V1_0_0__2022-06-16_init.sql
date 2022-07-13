@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS `group`  (
     `id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '主键id',
-    `tenant_id` varchar(30) NULL DEFAULT NULL COMMENT '租户id',
+    `tenant_id` varchar(30) NULL DEFAULT '19980105' COMMENT '租户id',
     `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '群组名称',
     `sort` int NULL DEFAULT NULL COMMENT '排序',
     `enable` int NOT NULL DEFAULT 1 COMMENT '是否启用 0:启动 1:关闭',
@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `group`  (
 
 CREATE TABLE IF NOT EXISTS `group_role`  (
     `id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '主键id',
-    `tenant_id` varchar(30) NULL DEFAULT NULL COMMENT '租户id',
+    `tenant_id` varchar(30) NULL DEFAULT '19980105' COMMENT '租户id',
     `group_id` int NULL DEFAULT NULL COMMENT '分组id',
     `role_id` int NULL DEFAULT NULL COMMENT '角色id',
     `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '创建人',
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `group_role`  (
 
 CREATE TABLE IF NOT EXISTS `login`  (
     `id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '主键id',
-    `tenant_id` varchar(30) NULL DEFAULT NULL COMMENT '租户id',
+    `tenant_id` varchar(30) NULL DEFAULT '19980105' COMMENT '租户id',
     `user_id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户id',
     `login_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '登陆账号',
     `login_password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '登陆密码',
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `login`  (
 
 CREATE TABLE IF NOT EXISTS `permission`  (
     `id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '主键id',
-    `tenant_id` varchar(30) NULL DEFAULT NULL COMMENT '租户id',
+    `tenant_id` varchar(30) NULL DEFAULT '19980105' COMMENT '租户id',
     `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '接口名称',
     `annotation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '注释',
     `url` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '接口地址',
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `permission`  (
 
 CREATE TABLE IF NOT EXISTS `role`  (
      `id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '主键id',
-     `tenant_id` varchar(30) NULL DEFAULT NULL COMMENT '租户id',
+     `tenant_id` varchar(30) NULL DEFAULT '19980105' COMMENT '租户id',
      `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '角色名字',
      `sort` int NULL DEFAULT NULL COMMENT '排序',
      `enable` int NOT NULL DEFAULT 1 COMMENT '是否启用 0:启动 1:关闭',
@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `role`  (
 
 CREATE TABLE IF NOT EXISTS `role_permission`  (
     `id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '主键id',
-    `tenant_id` varchar(30) NULL DEFAULT NULL COMMENT '租户id',
+    `tenant_id` varchar(30) NULL DEFAULT '19980105' COMMENT '租户id',
     `permission_id` int NULL DEFAULT NULL COMMENT '权限id',
     `role_id` int NULL DEFAULT NULL COMMENT '角色id',
     `create_by` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '创建人',
@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS `role_permission`  (
 
 CREATE TABLE IF NOT EXISTS `user`  (
     `id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '主键id',
-    `tenant_id` varchar(30) NULL DEFAULT NULL COMMENT '租户id',
+    `tenant_id` varchar(30) NULL DEFAULT '19980105' COMMENT '租户id',
     `user_id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户id',
     `user_no` int NULL DEFAULT NULL COMMENT '用户编号',
     `user_nick_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户昵称',
@@ -110,7 +110,7 @@ CREATE TABLE IF NOT EXISTS `user`  (
 
 CREATE TABLE IF NOT EXISTS `user_role`  (
     `id` varchar(30) NOT NULL COMMENT '主键id',
-    `tenant_id` varchar(30) NULL DEFAULT NULL COMMENT '租户id',
+    `tenant_id` varchar(30) NULL DEFAULT '19980105' COMMENT '租户id',
     `role_id` int NULL DEFAULT NULL COMMENT '角色id',
     `user_id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户id',
     `create_by` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '创建人',

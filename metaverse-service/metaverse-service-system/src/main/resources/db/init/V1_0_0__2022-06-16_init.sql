@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS `base_avatar`  (
     `id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '主键id',
-    `tenant_id` varchar(30) NULL DEFAULT NULL COMMENT '租户id',
+    `tenant_id` varchar(30) NULL DEFAULT '19980105' COMMENT '租户id',
     `avatar` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '名字',
     `create_by` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '创建人',
     `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS `base_avatar`  (
 
 CREATE TABLE IF NOT EXISTS `base_name`  (
     `id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '主键id',
-    `tenant_id` varchar(30) NULL DEFAULT NULL COMMENT '租户id',
+    `tenant_id` varchar(30) NULL DEFAULT '19980105' COMMENT '租户id',
     `name` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '名字',
     `create_by` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '创建人',
     `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `system_dictionary`  (
 
 CREATE TABLE IF NOT EXISTS `system_log`  (
     `id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '主键id',
-    `tenant_id` varchar(30) NULL DEFAULT NULL COMMENT '租户id',
+    `tenant_id` varchar(30) NULL DEFAULT '19980105' COMMENT '租户id',
     `table_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '表名',
     `table_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '对应数据id',
     `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '创建人',

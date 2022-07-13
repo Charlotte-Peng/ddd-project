@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS `article`  (
     `id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '主键id',
-    `tenant_id` varchar(30) NULL DEFAULT NULL COMMENT '租户id',
+    `tenant_id` varchar(30) NULL DEFAULT '19980105' COMMENT '租户id',
     `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '文章标题',
     `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '内容',
     `watch_num` bigint NULL DEFAULT NULL COMMENT '浏览量',
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `article`  (
 
 CREATE TABLE IF NOT EXISTS `label`  (
     `id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '主键id',
-    `tenant_id` varchar(30) NULL DEFAULT NULL COMMENT '租户id',
+    `tenant_id` varchar(30) NULL DEFAULT '19980105' COMMENT '租户id',
     `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '标签分类名称',
     `level` int NULL DEFAULT NULL COMMENT '层级',
     `parent_id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '父id',
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `label`  (
 
 CREATE TABLE IF NOT EXISTS `navigation_bar`  (
     `id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '主键id',
-    `tenant_id` varchar(30) NULL DEFAULT NULL COMMENT '租户id',
+    `tenant_id` varchar(30) NULL DEFAULT '19980105' COMMENT '租户id',
     `level` int NULL DEFAULT NULL COMMENT '层级',
     `parent_id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '父id',
     `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '导航栏名称',
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `navigation_bar`  (
 
 CREATE TABLE IF NOT EXISTS `navigation_bar_user`  (
     `id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '主键id',
-    `tenant_id` varchar(30) NULL DEFAULT NULL COMMENT '租户id',
+    `tenant_id` varchar(30) NULL DEFAULT '19980105' COMMENT '租户id',
     `user_id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户id',
     `navigation_bar_id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '导航栏id',
     `sort` int NULL DEFAULT NULL COMMENT '排序',
