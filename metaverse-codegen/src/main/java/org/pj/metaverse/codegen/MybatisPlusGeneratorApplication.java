@@ -29,7 +29,7 @@ public class MybatisPlusGeneratorApplication {
     private static final String ADDRESS = "10.8.8.4";
     private static final String PORT = "3306";
     private static final String ARG = "useUnicode=true&useSSL=false&characterEncoding=utf8";
-    private static final String PACKAGE_ADDRESS = "org.pj";
+    private static final String PACKAGE_ADDRESS = "org.pj.";
     public static final String DRIVER_CLASS_NAME = "com.mysql.cj.jdbc.Driver";
 
     public static final String USER_NAME = "root";
@@ -88,6 +88,8 @@ public class MybatisPlusGeneratorApplication {
         // 全局配置
         return new GlobalConfig.Builder()
 //                .fileOverride()
+                // 禁止打开输出目录
+                .disableOpenDir()
                 .outputDir(System.getProperty("user.dir") + "/" + projectName + "/src/main/java")
                 .author(name)
                 .enableSwagger()
@@ -151,6 +153,8 @@ public class MybatisPlusGeneratorApplication {
                 .addInclude(split)
                 // 实体
                 .entityBuilder()
+                // 父类class
+                .superClass(BaseEntity.class)
                 // 禁用生成 serialVersionUID
 //                .disableSerialVersionUID()
                 // 开启链式模型

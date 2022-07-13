@@ -35,7 +35,7 @@ public class BaseEntity implements Serializable {
 
     @Indexed
     @ApiModelProperty(value = "多租户id")
-    private Long tenantId;
+    private String tenantId;
 
     @Indexed
     @ApiModelProperty("排序")
