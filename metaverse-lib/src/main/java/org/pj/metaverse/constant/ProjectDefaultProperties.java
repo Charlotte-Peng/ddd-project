@@ -10,9 +10,11 @@ import org.springframework.stereotype.Component;
  **/
 @Component
 @Data
-public class ProjectDefaultPoperties {
+public class ProjectDefaultProperties {
     @Value("${project.name}")
     private String projectName;
     @Value("${project.tenantId}")
     private String projectTenantId;
+    @Value("${project.debug}")
+    private boolean debug;
 }

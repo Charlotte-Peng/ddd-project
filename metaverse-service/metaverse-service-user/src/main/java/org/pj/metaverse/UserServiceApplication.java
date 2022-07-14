@@ -1,6 +1,7 @@
 package org.pj.metaverse;
 
 import org.mybatis.spring.annotation.MapperScan;
+import org.pj.metaverse.init.SystemInit;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -23,7 +24,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableJpaRepositories(basePackages = "org.pj.metaverse.repository.jpa")
 public class UserServiceApplication {
     public static void main(String[] args) {
-        System.setProperty("log4j.skipJansi", "false");
+        SystemInit.init();
         SpringApplication.run(UserServiceApplication.class, args);
     }
 }

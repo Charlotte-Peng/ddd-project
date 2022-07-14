@@ -7,7 +7,7 @@
     <Properties>
         <!-- ==============================================公共配置============================================== -->
         <!-- 设置日志文件的目录名称 -->
-        <property name="logFileName">user</property>
+        <property name="logFileName">system</property>
 
         <!-- 日志默认存放的位置,可以设置为项目根路径下,也可指定绝对路径 -->
         <!-- 存放路径一:通用路径,window平台 -->
@@ -90,7 +90,7 @@
 
         <!-- ============================================控制台显示控制============================================ -->
         <!-- 控制台显示的日志最低级别 -->
-        <property name="console_print_level">INFO</property>
+        <property name="console_print_level">DEBUG</property>
 
     </Properties>
 
@@ -187,6 +187,12 @@
         </logger>
         <logger name="com.netflix" level="ERROR" additivity="false">
             <appender-ref ref="ErrorFile"/>
+            <appender-ref ref="Console"/>
+        </logger>
+
+        <!-- 打开 Bean Searcher 的 SQL 日志 -->
+        <logger name="com.ejlchina.searcher.implement.DefaultSqlExecutor" level="DEBUG" additivity="false">
+            <appender-ref ref="InfoFile"/>
             <appender-ref ref="Console"/>
         </logger>
 

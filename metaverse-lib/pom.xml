@@ -102,6 +102,11 @@
             <artifactId>redisson-spring-boot-starter</artifactId>
             <version>3.17.3</version>
         </dependency>-->
+        <!--        Bean Searcher-->
+        <dependency>
+            <groupId>com.ejlchina</groupId>
+            <artifactId>bean-searcher-boot-starter</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

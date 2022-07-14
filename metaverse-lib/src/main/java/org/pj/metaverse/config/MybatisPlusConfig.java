@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerIntercept
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.StringValue;
-import org.pj.metaverse.constant.ProjectDefaultPoperties;
+import org.pj.metaverse.constant.ProjectDefaultProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -23,7 +23,7 @@ import javax.annotation.Resource;
 public class MybatisPlusConfig {
 
     @Resource
-    ProjectDefaultPoperties projectDefaultPoperties;
+    ProjectDefaultProperties projectDefaultPoperties;
     /**
      * 新多租户插件配置
      */
