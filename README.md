@@ -10,7 +10,7 @@
 > > - 容器采用undertow
 > > - 接口文档采用knife4j
 > > - 权限校验采用satoken
-> > - ORN框架采用 mybatis-plus(数据兜底) 、 JPA(仅用Redis) 、 Bean Searcher(ORM读)
+> > - ORM框架采用 mybatis-plus(数据兜底) 、 JPA(仅用Redis) 、 Bean Searcher(ORM读)
 > > - 连接池采用druid
 > > - 工作流采用camunda
 > > - Redis主键生成策略工具ulid
