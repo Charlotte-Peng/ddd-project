@@ -2,10 +2,8 @@ package org.pj.metaverse;
 
 import lombok.extern.slf4j.Slf4j;
 import org.pj.metaverse.init.WebsocketInitialization;
-import org.pj.metaverse.utlis.AsyncUtils;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 /**

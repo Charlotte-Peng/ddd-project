@@ -1,6 +1,5 @@
-package org.pj.metaverse.utlis;
+package org.pj.metaverse.utils;
 
-import org.pj.metaverse.common.RedisConstant;
 import org.springframework.data.redis.support.atomic.RedisAtomicLong;
 import org.springframework.stereotype.Component;
 

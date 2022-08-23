@@ -83,6 +83,9 @@ public class RedisWebsocketUtils {
 
     /**
      * redis随机弹出一个端口号
+     * @author pengjie
+     * @date 2022/8/23 16:21
+     * @return java.lang.String
      */
     public String getRandomPort() {
         String port = stringRedisTemplate.opsForSet().pop(RedisConstant.WEBSOCKET_PORT_KEY);

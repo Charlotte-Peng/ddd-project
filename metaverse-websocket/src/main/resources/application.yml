@@ -20,17 +20,38 @@ server:
     # 是否分配的直接内存(NIO直接分配的堆外内存)
     direct-buffers: true
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   application:
     name: metaverse-websocket
   redis:
     password: $ZyF_8861-78Z
     cluster:
       nodes: 10.8.8.5:6379,10.8.8.5:6380,10.8.8.5:6381
-
-
+knife4j:
+  # 开启增强配置
+  enable: true
+  # 开启生产环境屏蔽
+  production: false
+swagger3:
+  enable: true
+  title: WebSocket
+  description: Metaverse WebSocket api document
+  authHeaderKey: X-Meta_verse-token
+logging:
+  config: classpath:log4j2-dev.xml
+  level:
+    cn.jay.repository: trace
 task:
   pool:
     corePoolSize: 10
     maxPoolSize: 20
     keepAliveSeconds: 300
     queueCapacity: 50
+project:
+  # 项目名称
+  name: Metaverse
+  # 默认租户id
+  tenantId: 19980105
+  debug: true

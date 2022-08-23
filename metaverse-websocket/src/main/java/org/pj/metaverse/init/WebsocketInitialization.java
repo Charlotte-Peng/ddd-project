@@ -2,7 +2,6 @@ package org.pj.metaverse.init;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -10,13 +9,12 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.pj.metaverse.common.RedisConstant;
-import org.pj.metaverse.utlis.IpAdderUtils;
+import org.pj.metaverse.utils.IpAdderUtils;
 import org.pj.metaverse.utlis.RedisWebsocketUtils;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Websocket 初始化器
