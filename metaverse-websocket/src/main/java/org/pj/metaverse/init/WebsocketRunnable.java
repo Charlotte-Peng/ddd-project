@@ -17,16 +17,16 @@ import java.time.LocalDateTime;
  **/
 @Slf4j
 public class WebsocketRunnable implements Runnable {
-    @Resource
     private TaskRpgService taskRpgService;
 
     private ChannelHandlerContext channelHandlerContext;
 
     private MessageResult messageRequest;
 
-    public WebsocketRunnable(ChannelHandlerContext channelHandlerContext,MessageResult messageRequest) {
+    public WebsocketRunnable(ChannelHandlerContext channelHandlerContext,MessageResult messageRequest,TaskRpgService taskRpgService) {
         this.channelHandlerContext = channelHandlerContext;
         this.messageRequest = messageRequest;
+        this.taskRpgService = taskRpgService;
     }
 
     /**

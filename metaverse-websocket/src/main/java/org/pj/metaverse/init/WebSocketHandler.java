@@ -10,6 +10,7 @@ import io.netty.util.concurrent.Future;
 import lombok.extern.slf4j.Slf4j;
 import org.pj.metaverse.common.RedisConstant;
 import org.pj.metaverse.result.MessageResult;
+import org.pj.metaverse.task.TaskRpgService;
 import org.pj.metaverse.utlis.RedisWebsocketUtils;
 import org.springframework.stereotype.Component;
 
@@ -33,6 +34,9 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<TextWebSocketF
 
     @Resource
     RedisWebsocketUtils redisWebsocketUtils;
+
+    @Resource
+    private TaskRpgService taskRpgService;
 
     /**
      * 通道map，存储channel，用于群发消息，以及统计客户端的在线数量
@@ -71,7 +75,7 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<TextWebSocketF
                 Future<?> future = ctx.channel()
                         .eventLoop()
                         .scheduleAtFixedRate(
-                                new WebsocketRunnable(ctx, messageRequest),
+                                new WebsocketRunnable(ctx, messageRequest,taskRpgService),
                                 0,
                                 redisWebsocketUtils.getWebsocketTaskCycleTime(RedisConstant.Type.RPG),
                                 TimeUnit.SECONDS);

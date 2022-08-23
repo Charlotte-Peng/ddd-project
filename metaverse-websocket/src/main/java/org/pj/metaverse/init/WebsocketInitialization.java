@@ -61,22 +61,16 @@ public class WebsocketInitialization {
             redisWebsocketUtils.saveWebsocketInfo(ipAddress, Integer.toString(port), RedisConstant.WEBSOCKET_RPG_TYPE_KEY);
             Runtime.getRuntime().addShutdownHook(new Thread(() ->
             {
-                System.out.println("ShutdownHook execute start...");
-                System.out.println("Netty NioEventLoopGroup shutdownGracefully...");
-                try {
-                    TimeUnit.SECONDS.sleep(3);
-                    System.out.println("Netty NioEventLoopGroup shutdownGracefully2...");
-                    bossGroup.shutdownGracefully();
-                    workerGroup.shutdownGracefully();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                log.info("服务器关闭");
+                log.info("ShutdownHook execute start...");
+                bossGroup.shutdownGracefully();
+                workerGroup.shutdownGracefully();
                 // 移除redis中相关服务器数据
                 redisWebsocketUtils.removeWebsocketInfo(IpAdderUtils.getLocalIpAddress(), Integer.toString(port), RedisConstant.WEBSOCKET_RPG_TYPE_KEY);
-                log.info("服务器关闭");
-                log.warn("Netty NioEventLoopGroup shutdownGracefully...");
+                log.info("归还redis相关资源...");
+                log.info("Netty NioEventLoopGroup shutdownGracefully...");
                 log.info("ShutdownHook execute end...");
-            }, "Allen-thread"));
+            }, "Shutdown-thread"));
             //异步
             channelFuture.channel().closeFuture().sync();
         } finally {

@@ -26,3 +26,11 @@ spring:
     password: $ZyF_8861-78Z
     cluster:
       nodes: 10.8.8.5:6379,10.8.8.5:6380,10.8.8.5:6381
+
+
+task:
+  pool:
+    corePoolSize: 10
+    maxPoolSize: 20
+    keepAliveSeconds: 300
+    queueCapacity: 50

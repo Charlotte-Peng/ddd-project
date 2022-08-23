@@ -60,7 +60,7 @@ public class RedisWebsocketUtils {
         String ipAddressAndPort = ipAddress + ":" + port;
         stringRedisTemplate.opsForHash().delete(RedisConstant.WEBSOCKET_IP_ADDRESS_BIND_ID, ipAddressAndPort);
         stringRedisTemplate.opsForSet().remove(type, ipAddressAndPort);
-        stringRedisTemplate.opsForSet().add(RedisConstant.WEBSOCKET_RPG_TYPE_KEY, port);
+        stringRedisTemplate.opsForSet().add(RedisConstant.WEBSOCKET_PORT_KEY, port);
     }
 
     /**
@@ -85,7 +85,11 @@ public class RedisWebsocketUtils {
      * redis随机弹出一个端口号
      */
     public String getRandomPort() {
-        return stringRedisTemplate.opsForSet().pop(RedisConstant.WEBSOCKET_PORT_KEY);
+        String port = stringRedisTemplate.opsForSet().pop(RedisConstant.WEBSOCKET_PORT_KEY);
+        if (port == null){
+            throw new Error("端口号不足");
+        }
+        return port;
     }
 
 }
