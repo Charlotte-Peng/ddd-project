@@ -8,6 +8,7 @@ import org.pj.metaverse.common.RedisConstant;
 import org.pj.metaverse.result.MessageResult;
 import org.pj.metaverse.task.TaskRpgService;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
 
 /**
@@ -15,8 +16,8 @@ import java.time.LocalDateTime;
  * @date 11:53 2022/8/23
  **/
 @Slf4j
-@RequiredArgsConstructor
 public class WebsocketRunnable implements Runnable {
+    @Resource
     private TaskRpgService taskRpgService;
 
     private ChannelHandlerContext channelHandlerContext;

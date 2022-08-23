@@ -30,6 +30,10 @@ public interface RedisConstant {
      * websocket任务周期时间的key
      */
     String WEBSOCKET_TASK_CYCLE_TIME_KEY = WEBSOCKET_NAME_SPACE+"task_cycle_time_key";
+    /**
+     * websocket端口号的key
+     */
+    String WEBSOCKET_PORT_KEY = WEBSOCKET_NAME_SPACE+"port_key";
 
     interface Type {
         /**

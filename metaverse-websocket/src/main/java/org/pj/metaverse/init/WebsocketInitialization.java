@@ -2,6 +2,7 @@ package org.pj.metaverse.init;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -15,6 +16,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Websocket 初始化器
@@ -30,15 +32,12 @@ public class WebsocketInitialization {
     @Resource
     private RedisWebsocketUtils redisWebsocketUtils;
 
-    /**
-     * 随机端口
-     * @date 2022/8/23 11:03
-     */
-    private final Integer port = (int) (Math.random() * 10000) + 10000;
+
 
     @Async
     public void init() throws InterruptedException {
-
+        // 随机端口号
+        final int port = Integer.parseInt(redisWebsocketUtils.getRandomPort());
         //bossGroup连接线程组，主要负责接受客户端连接，一般一个线程足矣
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         //workerGroup工作线程组，主要负责网络IO读写
@@ -59,7 +58,25 @@ public class WebsocketInitialization {
             // 获取本机ip地址
             String ipAddress = IpAdderUtils.getLocalIpAddress();
             // 启动完成，将端口号写入redis进行管理
-            redisWebsocketUtils.saveWebsocketInfo(ipAddress,port.toString(), RedisConstant.WEBSOCKET_RPG_TYPE_KEY);
+            redisWebsocketUtils.saveWebsocketInfo(ipAddress, Integer.toString(port), RedisConstant.WEBSOCKET_RPG_TYPE_KEY);
+            Runtime.getRuntime().addShutdownHook(new Thread(() ->
+            {
+                System.out.println("ShutdownHook execute start...");
+                System.out.println("Netty NioEventLoopGroup shutdownGracefully...");
+                try {
+                    TimeUnit.SECONDS.sleep(3);
+                    System.out.println("Netty NioEventLoopGroup shutdownGracefully2...");
+                    bossGroup.shutdownGracefully();
+                    workerGroup.shutdownGracefully();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                // 移除redis中相关服务器数据
+                redisWebsocketUtils.removeWebsocketInfo(IpAdderUtils.getLocalIpAddress(), Integer.toString(port), RedisConstant.WEBSOCKET_RPG_TYPE_KEY);
+                log.info("服务器关闭");
+                log.warn("Netty NioEventLoopGroup shutdownGracefully...");
+                log.info("ShutdownHook execute end...");
+            }, "Allen-thread"));
             //异步
             channelFuture.channel().closeFuture().sync();
         } finally {

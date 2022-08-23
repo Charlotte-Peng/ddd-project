@@ -32,7 +32,7 @@ public class RedisWebsocketUtils {
         String ipAddressAndPort = ipAddress + ":" + port;
         if (Boolean.FALSE.equals(stringRedisTemplate.opsForHash().hasKey(RedisConstant.WEBSOCKET_IP_ADDRESS_BIND_ID, ipAddressAndPort))) {
             // 不存在，则添加
-            stringRedisTemplate.opsForHash().put(RedisConstant.WEBSOCKET_IP_ADDRESS_BIND_ID,ipAddress, getAutoIncrementId().toString());
+            stringRedisTemplate.opsForHash().put(RedisConstant.WEBSOCKET_IP_ADDRESS_BIND_ID,ipAddressAndPort, getAutoIncrementId().toString());
             stringRedisTemplate.opsForSet().add(type,ipAddressAndPort);
         }
     }
@@ -60,6 +60,7 @@ public class RedisWebsocketUtils {
         String ipAddressAndPort = ipAddress + ":" + port;
         stringRedisTemplate.opsForHash().delete(RedisConstant.WEBSOCKET_IP_ADDRESS_BIND_ID, ipAddressAndPort);
         stringRedisTemplate.opsForSet().remove(type, ipAddressAndPort);
+        stringRedisTemplate.opsForSet().add(RedisConstant.WEBSOCKET_RPG_TYPE_KEY, port);
     }
 
     /**
@@ -79,4 +80,12 @@ public class RedisWebsocketUtils {
         }
         return Integer.parseInt(second);
     }
+
+    /**
+     * redis随机弹出一个端口号
+     */
+    public String getRandomPort() {
+        return stringRedisTemplate.opsForSet().pop(RedisConstant.WEBSOCKET_PORT_KEY);
+    }
+
 }
