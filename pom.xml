@@ -31,6 +31,7 @@
         <module>metaverse-execl</module>
         <module>metaverse-i18n</module>
         <module>metaverse-service</module>
+        <module>metaverse-websocket</module>
     </modules>
 
     <properties>
@@ -109,6 +110,7 @@
                 <artifactId>spring-boot-devtools</artifactId>
                 <scope>runtime</scope>
                 <optional>true</optional>
+                <version>${springBoot.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
