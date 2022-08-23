@@ -42,6 +42,12 @@ public class DataResult<T> implements Serializable {
         this.message = message;
     }
 
+    public DataResult(T t) {
+        this.code = 200;
+        this.message = SUCCESS_MESSAGE;
+        this.data = t;
+    }
+
     public DataResult(ResponseEnum responseEnum) {
         this.code = responseEnum.getCode();
         this.message = responseEnum.getMessage();

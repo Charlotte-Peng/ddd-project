@@ -8,4 +8,5 @@ public interface ServiceNameConstant {
     String SERVICE_NAME_BLOG = "BLOG";
     String SERVICE_NAME_SYSTEM = "SYSTEM";
     String SERVICE_NAME_USER = "USER";
+    String SERVICE_NAME_RPG = "RPG";
 }

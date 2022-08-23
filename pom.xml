@@ -55,7 +55,7 @@
         <camunda.version>7.17.0</camunda.version>
         <lombok.version>1.18.24</lombok.version>
         <ulid.version>8.3.0</ulid.version>
-        <bean-searcher.version>3.7.1</bean-searcher.version>
+        <bean-searcher.version>3.8.0</bean-searcher.version>
     </properties>
 
     <dependencyManagement>

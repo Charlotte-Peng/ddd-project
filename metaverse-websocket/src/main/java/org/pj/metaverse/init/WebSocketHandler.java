@@ -8,7 +8,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.util.concurrent.Future;
 import lombok.extern.slf4j.Slf4j;
-import org.pj.metaverse.common.RedisConstant;
+import org.pj.metaverse.constant.redis.WebSocketRedisConstant;
 import org.pj.metaverse.result.MessageResult;
 import org.pj.metaverse.task.TaskRpgService;
 import org.pj.metaverse.utlis.RedisWebsocketUtils;
@@ -77,7 +77,7 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<TextWebSocketF
                         .scheduleAtFixedRate(
                                 new WebsocketRunnable(ctx, messageRequest,taskRpgService),
                                 0,
-                                redisWebsocketUtils.getWebsocketTaskCycleTime(RedisConstant.Type.RPG),
+                                redisWebsocketUtils.getWebsocketTaskCycleTime(WebSocketRedisConstant.Type.RPG),
                                 TimeUnit.SECONDS);
                 // 存储客户端和服务的通信的Chanel
                 CHANNEL_MAP.put(key, ctx.channel());

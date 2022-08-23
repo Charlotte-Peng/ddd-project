@@ -1,15 +1,10 @@
 package org.pj.metaverse.init;
 
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.pj.metaverse.common.RedisConstant;
+import org.pj.metaverse.constant.redis.WebSocketRedisConstant;
 import org.pj.metaverse.result.MessageResult;
 import org.pj.metaverse.task.TaskRpgService;
-
-import javax.annotation.Resource;
-import java.time.LocalDateTime;
 
 /**
  * @author pengjie
@@ -38,7 +33,7 @@ public class WebsocketRunnable implements Runnable {
     public void run() {
         try {
             switch (messageRequest.getSocketMessageType()){
-                case RedisConstant.Type.RPG:
+                case WebSocketRedisConstant.Type.RPG:
                     taskRpgService.pushMessage(channelHandlerContext,messageRequest);
                     break;
                 default:

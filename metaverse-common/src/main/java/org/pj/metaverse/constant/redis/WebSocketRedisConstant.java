@@ -1,10 +1,10 @@
-package org.pj.metaverse.common;
+package org.pj.metaverse.constant.redis;
 
 /**
  * @author pengjie
  * @date 10:48 2022/8/23
  **/
-public interface RedisConstant {
+public interface WebSocketRedisConstant {
 
     /**
      * websocket的命名空间

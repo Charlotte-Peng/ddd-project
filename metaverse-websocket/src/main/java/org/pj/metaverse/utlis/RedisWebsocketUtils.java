@@ -2,7 +2,7 @@ package org.pj.metaverse.utlis;
 
 import lombok.RequiredArgsConstructor;
 import org.pj.metaverse.common.DefaultSettingConstant;
-import org.pj.metaverse.common.RedisConstant;
+import org.pj.metaverse.constant.redis.WebSocketRedisConstant;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.support.atomic.RedisAtomicLong;
 import org.springframework.stereotype.Component;
@@ -30,9 +30,9 @@ public class RedisWebsocketUtils {
     public void saveWebsocketInfo(String ipAddress, String port, String type) {
         // 查询redis中的websocket信息，如果没有，则添加，如果有，则不添加
         String ipAddressAndPort = ipAddress + ":" + port;
-        if (Boolean.FALSE.equals(stringRedisTemplate.opsForHash().hasKey(RedisConstant.WEBSOCKET_IP_ADDRESS_BIND_ID, ipAddressAndPort))) {
+        if (Boolean.FALSE.equals(stringRedisTemplate.opsForHash().hasKey(WebSocketRedisConstant.WEBSOCKET_IP_ADDRESS_BIND_ID, ipAddressAndPort))) {
             // 不存在，则添加
-            stringRedisTemplate.opsForHash().put(RedisConstant.WEBSOCKET_IP_ADDRESS_BIND_ID,ipAddressAndPort, getAutoIncrementId().toString());
+            stringRedisTemplate.opsForHash().put(WebSocketRedisConstant.WEBSOCKET_IP_ADDRESS_BIND_ID,ipAddressAndPort, getAutoIncrementId().toString());
             stringRedisTemplate.opsForSet().add(type,ipAddressAndPort);
         }
     }
@@ -44,7 +44,7 @@ public class RedisWebsocketUtils {
      * @return java.lang.Long
      */
     private Long getAutoIncrementId() {
-        RedisAtomicLong counter = new RedisAtomicLong(RedisConstant.WEBSOCKET_AUTO_INCREMENT_KEY, Objects.requireNonNull(stringRedisTemplate.getConnectionFactory()));
+        RedisAtomicLong counter = new RedisAtomicLong(WebSocketRedisConstant.WEBSOCKET_AUTO_INCREMENT_KEY, Objects.requireNonNull(stringRedisTemplate.getConnectionFactory()));
         return counter.incrementAndGet();
     }
 
@@ -58,9 +58,9 @@ public class RedisWebsocketUtils {
      */
     public void removeWebsocketInfo(String ipAddress, String port, String type) {
         String ipAddressAndPort = ipAddress + ":" + port;
-        stringRedisTemplate.opsForHash().delete(RedisConstant.WEBSOCKET_IP_ADDRESS_BIND_ID, ipAddressAndPort);
+        stringRedisTemplate.opsForHash().delete(WebSocketRedisConstant.WEBSOCKET_IP_ADDRESS_BIND_ID, ipAddressAndPort);
         stringRedisTemplate.opsForSet().remove(type, ipAddressAndPort);
-        stringRedisTemplate.opsForSet().add(RedisConstant.WEBSOCKET_PORT_KEY, port);
+        stringRedisTemplate.opsForSet().add(WebSocketRedisConstant.WEBSOCKET_PORT_KEY, port);
     }
 
     /**
@@ -71,10 +71,10 @@ public class RedisWebsocketUtils {
      * @return java.lang.Integer
      */
     public Integer getWebsocketTaskCycleTime(String type) {
-        String second = (String) stringRedisTemplate.opsForHash().get(RedisConstant.WEBSOCKET_TASK_CYCLE_TIME_KEY, type);
+        String second = (String) stringRedisTemplate.opsForHash().get(WebSocketRedisConstant.WEBSOCKET_TASK_CYCLE_TIME_KEY, type);
         if (second == null) {
             // 设置默认时间
-            stringRedisTemplate.opsForHash().put(RedisConstant.WEBSOCKET_TASK_CYCLE_TIME_KEY, type, DefaultSettingConstant.WEBSOCKET_TASK_CYCLE_TIME.toString());
+            stringRedisTemplate.opsForHash().put(WebSocketRedisConstant.WEBSOCKET_TASK_CYCLE_TIME_KEY, type, DefaultSettingConstant.WEBSOCKET_TASK_CYCLE_TIME.toString());
             // 返回默认时间
             return DefaultSettingConstant.WEBSOCKET_TASK_CYCLE_TIME;
         }
@@ -88,11 +88,22 @@ public class RedisWebsocketUtils {
      * @return java.lang.String
      */
     public String getRandomPort() {
-        String port = stringRedisTemplate.opsForSet().pop(RedisConstant.WEBSOCKET_PORT_KEY);
+        String port = stringRedisTemplate.opsForSet().pop(WebSocketRedisConstant.WEBSOCKET_PORT_KEY);
         if (port == null){
             throw new Error("端口号不足");
         }
         return port;
+    }
+
+    /**
+     * 获取指定类型服务器的ip节点
+     * @author pengjie
+     * @date 2022/8/23 11:20
+     * @param type 类型
+     * @return java.lang.String
+     */
+    public String getWebsocketIpAddress(String type) {
+        return stringRedisTemplate.opsForSet().randomMember(WebSocketRedisConstant.WEBSOCKET_RPG_TYPE_KEY);
     }
 
 }

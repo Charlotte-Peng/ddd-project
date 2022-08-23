@@ -25,6 +25,34 @@ spring:
       matching-strategy: ant_path_matcher
   application:
     name: metaverse-websocket
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://10.8.8.4:3306/metaverse_rpg?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2B8
+      username: root
+      password: root
+      maxWait: 60000
+      connect-properties:
+        socketTimeout: 30000
+        connectTimeout: 12000
+      maxActive: 50
+      initial-size: 10
+      min-idle: 10
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 30000
+      max-evictable-idle-time-millis: 180000
+      phy-timeout-millis: 15000
+      validation-query: select 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-open-prepared-statements: 20
+      use-global-data-source-stat: true
+      keepAlive: true
+      remove-abandoned: true
+      remove-abandoned-timeout: 100
+      filters: stat,slf4j
   redis:
     password: $ZyF_8861-78Z
     cluster:

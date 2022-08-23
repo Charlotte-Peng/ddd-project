@@ -8,7 +8,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
-import org.pj.metaverse.common.RedisConstant;
+import org.pj.metaverse.constant.redis.WebSocketRedisConstant;
 import org.pj.metaverse.utils.IpAdderUtils;
 import org.pj.metaverse.utlis.RedisWebsocketUtils;
 import org.springframework.scheduling.annotation.Async;
@@ -56,7 +56,7 @@ public class WebsocketInitialization {
             // 获取本机ip地址
             String ipAddress = IpAdderUtils.getLocalIpAddress();
             // 启动完成，将端口号写入redis进行管理
-            redisWebsocketUtils.saveWebsocketInfo(ipAddress, Integer.toString(port), RedisConstant.WEBSOCKET_RPG_TYPE_KEY);
+            redisWebsocketUtils.saveWebsocketInfo(ipAddress, Integer.toString(port), WebSocketRedisConstant.WEBSOCKET_RPG_TYPE_KEY);
             Runtime.getRuntime().addShutdownHook(new Thread(() ->
             {
                 log.info("服务器关闭");
@@ -64,7 +64,7 @@ public class WebsocketInitialization {
                 bossGroup.shutdownGracefully();
                 workerGroup.shutdownGracefully();
                 // 移除redis中相关服务器数据
-                redisWebsocketUtils.removeWebsocketInfo(IpAdderUtils.getLocalIpAddress(), Integer.toString(port), RedisConstant.WEBSOCKET_RPG_TYPE_KEY);
+                redisWebsocketUtils.removeWebsocketInfo(IpAdderUtils.getLocalIpAddress(), Integer.toString(port), WebSocketRedisConstant.WEBSOCKET_RPG_TYPE_KEY);
                 log.info("归还redis相关资源...");
                 log.info("Netty NioEventLoopGroup shutdownGracefully...");
                 log.info("ShutdownHook execute end...");
