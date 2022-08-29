@@ -1,5 +1,7 @@
 package org.pj.metaverse.init;
 
+import com.alibaba.nacos.api.naming.NamingFactory;
+import com.alibaba.nacos.api.naming.NamingService;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
@@ -11,10 +13,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.pj.metaverse.constant.redis.WebSocketRedisConstant;
 import org.pj.metaverse.utils.IpAdderUtils;
 import org.pj.metaverse.utlis.RedisWebsocketUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.net.InetAddress;
 
 /**
  * Websocket 初始化器
@@ -25,6 +29,9 @@ import javax.annotation.Resource;
 @Component
 public class WebsocketInitialization {
 
+    @Value("${spring.cloud.nacos.discovery.server-addr}")
+    private String nacosServer;
+
     @Resource
     private WebsocketChannelInitializer websocketChannelInitializer;
     @Resource
@@ -33,7 +40,7 @@ public class WebsocketInitialization {
 
 
     @Async
-    public void init() throws InterruptedException {
+    public void init() {
         // 随机端口号
         final int port = Integer.parseInt(redisWebsocketUtils.getRandomPort());
         //bossGroup连接线程组，主要负责接受客户端连接，一般一个线程足矣
@@ -71,7 +78,8 @@ public class WebsocketInitialization {
             }, "Shutdown-thread"));
             //异步
             channelFuture.channel().closeFuture().sync();
-        } finally {
+        } catch (Exception e) {
+            log.error("websocket服务器启动失败", e);
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }

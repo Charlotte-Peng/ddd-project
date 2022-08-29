@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -18,9 +19,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableDiscoveryClient
 @EnableTransactionManagement
 @MapperScan("org.pj.metaverse.mapper")
-@ComponentScan(value = "org.pj.metaverse.*")
-@EnableRedisRepositories(basePackages = "org.pj.metaverse.repository.redis")
-@EnableJpaRepositories(basePackages = "org.pj.metaverse.repository.jpa")
+@ComponentScan(value = "org.pj.metaverse.*",
+        excludeFilters = {@ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.pj.metaverse.config.MybatisPlusConfig")} )
 public class RpgServiceApplication {
     public static void main(String[] args) {
         System.setProperty("log4j.skipJansi", "false");

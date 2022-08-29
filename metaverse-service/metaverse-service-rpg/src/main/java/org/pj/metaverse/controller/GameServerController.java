@@ -40,6 +40,6 @@ public class GameServerController {
             vo.setServerAdder(String.format(serverAdderFormat, item));
             return vo;
         }).collect(Collectors.toList());
-        return new DataResult<>(collect);`
+        return new DataResult<>(collect);
     }
 }

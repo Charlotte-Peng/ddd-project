@@ -3,7 +3,7 @@ package org.pj.metaverse.task;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
-import org.pj.metaverse.result.MessageResult;
+import org.pj.metaverse.result.MessageReqResult;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -20,7 +20,7 @@ public class TaskRpgService {
      * @author pengjie
      * @date 2022/8/23 11:59
      */
-    public void pushMessage(ChannelHandlerContext channelHandlerContext, MessageResult messageRequest) {
+    public void pushMessage(ChannelHandlerContext channelHandlerContext, MessageReqResult messageRequest) {
         // 打印消息
         log.info("推送消息：{}", messageRequest);
         // 定时推送消息

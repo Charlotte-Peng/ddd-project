@@ -24,6 +24,9 @@ public class UserRegisterReqVO {
     @ApiModelProperty(value = "名称", example = "pengjie")
     private String userNickName;
 
+    @ApiModelProperty(value = "头像")
+    private String userAvatar;
+
     @ApiModelProperty(value = "0:女 1:男 2:未知", example = "0")
     private String sex;
 }

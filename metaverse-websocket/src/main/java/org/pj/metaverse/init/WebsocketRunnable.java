@@ -3,7 +3,7 @@ package org.pj.metaverse.init;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.pj.metaverse.constant.redis.WebSocketRedisConstant;
-import org.pj.metaverse.result.MessageResult;
+import org.pj.metaverse.result.MessageReqResult;
 import org.pj.metaverse.task.TaskRpgService;
 
 /**
@@ -16,9 +16,9 @@ public class WebsocketRunnable implements Runnable {
 
     private ChannelHandlerContext channelHandlerContext;
 
-    private MessageResult messageRequest;
+    private MessageReqResult messageRequest;
 
-    public WebsocketRunnable(ChannelHandlerContext channelHandlerContext,MessageResult messageRequest,TaskRpgService taskRpgService) {
+    public WebsocketRunnable(ChannelHandlerContext channelHandlerContext, MessageReqResult messageRequest, TaskRpgService taskRpgService) {
         this.channelHandlerContext = channelHandlerContext;
         this.messageRequest = messageRequest;
         this.taskRpgService = taskRpgService;
