@@ -2,7 +2,9 @@ package org.pj.metaverse.init;
 
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
+import org.pj.metaverse.constant.MessageTypeConstant;
 import org.pj.metaverse.constant.redis.WebSocketRedisConstant;
+import org.pj.metaverse.handle.GameTypeFactory;
 import org.pj.metaverse.result.MessageReqResult;
 import org.pj.metaverse.task.TaskRpgService;
 
@@ -12,16 +14,16 @@ import org.pj.metaverse.task.TaskRpgService;
  **/
 @Slf4j
 public class WebsocketRunnable implements Runnable {
-    private TaskRpgService taskRpgService;
+    private final GameTypeFactory gameTypeFactory;
 
-    private ChannelHandlerContext channelHandlerContext;
+    private final ChannelHandlerContext channelHandlerContext;
 
-    private MessageReqResult messageRequest;
+    private final MessageReqResult messageRequest;
 
-    public WebsocketRunnable(ChannelHandlerContext channelHandlerContext, MessageReqResult messageRequest, TaskRpgService taskRpgService) {
+    public WebsocketRunnable(ChannelHandlerContext channelHandlerContext, MessageReqResult messageRequest, GameTypeFactory gameTypeFactory) {
         this.channelHandlerContext = channelHandlerContext;
         this.messageRequest = messageRequest;
-        this.taskRpgService = taskRpgService;
+        this.gameTypeFactory = gameTypeFactory;
     }
 
     /**
@@ -34,7 +36,7 @@ public class WebsocketRunnable implements Runnable {
         try {
             switch (messageRequest.getSocketMessageType()){
                 case WebSocketRedisConstant.Type.RPG:
-                    taskRpgService.pushMessage(channelHandlerContext,messageRequest);
+                    gameTypeFactory.getState(MessageTypeConstant.HEART_BEAT).handle(messageRequest, channelHandlerContext);
                     break;
                 default:
                     log.error("消息类型不存在：{}",messageRequest.getSocketMessageType());

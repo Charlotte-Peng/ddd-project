@@ -60,8 +60,4 @@ public class CommonService {
         }
         redisTemplate.opsForHash().putAll(CommonRedisConstant.CONSTANTS, data);
     }
-
-    private Set<String> getAllRandomName() {
-        return redisTemplate.opsForSet().members(CommonRedisConstant.RANDOM_NAME);
-    }
 }

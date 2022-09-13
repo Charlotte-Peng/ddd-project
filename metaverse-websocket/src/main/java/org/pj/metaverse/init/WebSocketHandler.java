@@ -9,6 +9,7 @@ import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.util.concurrent.Future;
 import lombok.extern.slf4j.Slf4j;
 import org.pj.metaverse.constant.MessageTypeConstant;
+import org.pj.metaverse.constant.redis.WebSocketRedisConstant;
 import org.pj.metaverse.handle.GameTypeFactory;
 import org.pj.metaverse.handle.GameTypeHandleCommon;
 import org.pj.metaverse.result.MessageRepResult;
@@ -23,6 +24,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 /**
  * websocket 入站处理器
@@ -72,27 +74,28 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<TextWebSocketF
             // 每个channel都有id，asLongText是全局channel唯一id
             String key = ctx.channel().id().asLongText();
             // 存储channel的id和用户的主键
-            CLIENT_MAP.put(key, messageRequest.getMessageId());
+            CLIENT_MAP.put(key, messageRequest.getUserId());
             String logMsg = "接收到客户端消息，消息id：%s，消息类型：%s，消息内容：%s,消息数据：%s";
             log.info(String.format(logMsg, messageRequest.getMessageId(), messageRequest.getMessageType(), messageRequest.getMessage(), messageRequest.getData()));
 
             if (!CHANNEL_MAP.containsKey(key)) {
                 // 使用channel中的任务队列，做周期循环推送客户端消息
-                /*Future<?> future = ctx.channel()
+                Future<?> future = ctx.channel()
                         .eventLoop()
                         .scheduleAtFixedRate(
-                                new WebsocketRunnable(ctx, messageRequest,taskRpgService),
+                                new WebsocketRunnable(ctx, messageRequest,gameTypeFactory),
                                 0,
                                 redisWebsocketUtils.getWebsocketTaskCycleTime(WebSocketRedisConstant.Type.RPG),
-                                TimeUnit.SECONDS);*/
+                                TimeUnit.SECONDS);
                 // 存储客户端和服务的通信的Chanel
                 CHANNEL_MAP.put(key, ctx.channel());
                 // 存储每个channel中的future，保证每个channel中有一个定时任务在执行
-//                FUTURE_MAP.put(key, future);
+                FUTURE_MAP.put(key, future);
             } else {
-                // 每次客户端和服务的主动通信，和服务端周期向客户端推送消息互不影响 解决问题一
-                gameTypeFactory.getState(MessageTypeConstant.HEART_BEAT).handle(messageRequest, ctx);
+
             }
+            // 每次客户端和服务的主动通信，和服务端周期向客户端推送消息互不影响 解决问题一
+            gameTypeFactory.getState(messageRequest.getMessageType()).handle(messageRequest, ctx);
         } catch (Exception e) {
             log.error("websocket服务器推送消息发生错误：", e);
         }

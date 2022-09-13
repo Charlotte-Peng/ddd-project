@@ -28,7 +28,7 @@ public class SystemDictionaryController {
     @GetMapping
     public DataResult<String> getDictionary(@RequestParam String key){
         String data = service.getDictionary(key);
-        return new DataResult<>(DataResult.success(), data);
+        return DataResult.success(data);
     }
 
     @ApiOperation(value = "修改对应的系统配置")

@@ -1,7 +1,7 @@
 package org.pj.metaverse.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.pj.metaverse.entity.TDictionaryEntity;
+import org.pj.metaverse.entity.TUserLogEntity;
 
 /**
  * <p>
@@ -11,5 +11,6 @@ import org.pj.metaverse.entity.TDictionaryEntity;
  * @author pengjie
  * @since 2022-08-25 14:40:06
  */
-public interface ITDictionaryService extends IService<TDictionaryEntity> {
+public interface ITUserLogService extends IService<TUserLogEntity> {
+
 }

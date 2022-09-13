@@ -18,6 +18,7 @@ import org.pj.metaverse.entity.repvo.LoginRepVO;
 import org.pj.metaverse.entity.reqvo.UserLoginReqVO;
 import org.pj.metaverse.entity.reqvo.WebRegisteredAccountReqVO;
 import org.pj.metaverse.entity.reqvo.WebUserLoginReqVO;
+import org.pj.metaverse.entity.vo.PermissionVO;
 import org.pj.metaverse.enums.ResponseEnum;
 import org.pj.metaverse.exception.ServerException;
 import org.pj.metaverse.feign.SystemFeign;
@@ -39,6 +40,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -102,7 +104,9 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper, LoginEntity> impl
         data.setUserAvatar(userEntity.getUserAvatar());
         // 查询该用户的权限集合
         List<PermissionEntity> permissionList = permissionService.getPermissionList();
-        data.setPermissionList(permissionList);
+        List<PermissionVO> permissionVOList = new ArrayList<>(permissionList.size());
+        BeanUtils.copyProperties(permissionList,permissionVOList);
+        data.setPermissionList(permissionVOList);
         // 利用redis记录在线人数
         stringRedisTemplate.opsForValue().setBit(UserRedisConstant.USER_ONLINE_NUM,userEntity.getUserNo(),true);
         return data;
@@ -208,7 +212,9 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper, LoginEntity> impl
         data.setTokenValue(tokenInfo.tokenValue);
         // 查询该用户的权限集合
         List<PermissionEntity> permissionList = permissionService.getPermissionList();
-        data.setPermissionList(permissionList);
+        List<PermissionVO> permissionVOList = new ArrayList<>(permissionList.size());
+        BeanUtils.copyProperties(permissionList,permissionVOList);
+        data.setPermissionList(permissionVOList);
         return data;
     }
 

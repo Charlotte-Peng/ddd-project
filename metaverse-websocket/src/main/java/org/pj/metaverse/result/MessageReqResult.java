@@ -28,6 +28,8 @@ public class MessageReqResult implements Serializable {
     /** 消息内容 */
     private String message;
 
+    private String userId;
+
     /** 消息数据 */
     private Map<String,Object> data;
 

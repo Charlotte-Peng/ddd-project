@@ -21,4 +21,17 @@ public interface MessageTypeConstant {
      * 获取城镇地图信息
      */
     String GET_CITY_MAP_INFO = "GET_CITY_MAP_INFO";
+    /**
+     * 获取副本地图信息
+     */
+    String GET_INSTANCE_MAP_INFO = "GET_INSTANCE_MAP_INFO";
+    /**
+     * 获取剧情信息
+     */
+    String GET_STORY_INFO = "GET_STORY_INFO";
+
+    /**
+     * 错误消息
+     */
+    String ERROR = "ERROR";
 }

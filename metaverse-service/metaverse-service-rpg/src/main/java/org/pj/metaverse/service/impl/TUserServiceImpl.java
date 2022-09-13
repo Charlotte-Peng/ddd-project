@@ -10,7 +10,6 @@ import org.pj.metaverse.entity.TUserRoleInfoEntity;
 import org.pj.metaverse.entity.reqvo.UserLoginReqVO;
 import org.pj.metaverse.entity.reqvo.UserRegisterReqVO;
 import org.pj.metaverse.exception.ServerException;
-import org.pj.metaverse.mapper.TRoleMapper;
 import org.pj.metaverse.mapper.TUserMapper;
 import org.pj.metaverse.mapper.TUserRoleInfoMapper;
 import org.pj.metaverse.mapper.TUserRoleMapper;
@@ -20,7 +19,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.pj.metaverse.utils.NvlUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * <p>

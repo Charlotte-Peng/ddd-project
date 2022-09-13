@@ -3,6 +3,7 @@ package org.pj.metaverse.handle;
 import com.alibaba.fastjson.JSON;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import org.pj.metaverse.constant.MessageTypeConstant;
 import org.pj.metaverse.result.MessageRepResult;
 import org.pj.metaverse.result.MessageReqResult;
 
@@ -26,6 +27,17 @@ public class GameTypeHandleCommon implements GameTypeHandle {
      * @param ctx 通道相关信息
      */
     public void sendMessage(MessageRepResult<?> messageRepResult, ChannelHandlerContext ctx) {
+        ctx.channel().writeAndFlush(new TextWebSocketFrame(JSON.toJSONString(messageRepResult)));
+    }
+    /**
+     * 发送报错消息出去
+     * @param ctx 通道相关信息
+     * @param message 消息
+     */
+    public void sendMessageFail(ChannelHandlerContext ctx, String message) {
+        MessageRepResult<Void> messageRepResult = new MessageRepResult<>();
+        messageRepResult.setMessageType(MessageTypeConstant.ERROR);
+        messageRepResult.setMessage(message);
         ctx.channel().writeAndFlush(new TextWebSocketFrame(JSON.toJSONString(messageRepResult)));
     }
 }
