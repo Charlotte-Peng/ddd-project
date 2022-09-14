@@ -36,13 +36,24 @@ public class GameTypeMapMoveTypeService extends GameTypeHandleCommon{
             // 写入当前地图信息
             TPointMapDetailRepVO tPointMapDetailRepVO = commonService.queryMapDetail(mapMoveReqVO.getMapCode());
             stringRedisTemplate.opsForValue().set(format, JSON.toJSONString(tPointMapDetailRepVO));
+           s = JSON.toJSONString(tPointMapDetailRepVO);
         }
         // 根据地图信息获取地图详情
         TPointMapDetailRepVO tPointMapDetailRepVO = JSON.parseObject(s, TPointMapDetailRepVO.class);
         // 根据用户移动位置判断是否触发对应的事件
         assert tPointMapDetailRepVO != null;
         int[][] mapPoint = tPointMapDetailRepVO.getMapPoint();
-        int eventId = mapPoint[mapMoveReqVO.getX()][mapMoveReqVO.getY()];
+        int eventId = mapPoint[mapMoveReqVO.getY()][mapMoveReqVO.getX()];
+        // 设置事件id默认-1，因为事件id对应数组下标对应的事件
+        eventId = eventId -1;
+        if (eventId == -1){
+            // 未触发事件
+            MessageRepResult<Void> messageRepResult = new MessageRepResult<>();
+            messageRepResult.setMessageType(MessageTypeConstant.MAP_MOVE);
+            messageRepResult.setMessage("未触发事件");
+            super.sendMessage(ctx, messageRepResult);
+            return;
+        }
         // 根据事件id获取事件详情
         MapPointInfoVO mapPointInfoVO = tPointMapDetailRepVO.getMapPointInfo().get(eventId);
         // 返回事件详情

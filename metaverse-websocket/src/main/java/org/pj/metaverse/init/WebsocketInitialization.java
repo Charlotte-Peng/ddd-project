@@ -71,9 +71,10 @@ public class WebsocketInitialization {
                 bossGroup.shutdownGracefully();
                 workerGroup.shutdownGracefully();
                 // 移除redis中相关服务器数据
-                redisWebsocketUtils.removeWebsocketInfo(IpAdderUtils.getLocalIpAddress(), Integer.toString(port), WebSocketRedisConstant.WEBSOCKET_RPG_TYPE_KEY);
                 log.info("归还redis相关资源...");
+                redisWebsocketUtils.removeWebsocketInfo(IpAdderUtils.getLocalIpAddress(), Integer.toString(port), WebSocketRedisConstant.WEBSOCKET_RPG_TYPE_KEY);
                 // 清空用户相关记录数据
+                log.info("清空用户相关记录数据...");
                 redisWebsocketUtils.clearUserWebsocketInfo();
                 log.info("Netty NioEventLoopGroup shutdownGracefully...");
                 log.info("ShutdownHook execute end...");
