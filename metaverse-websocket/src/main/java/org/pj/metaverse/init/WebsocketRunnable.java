@@ -24,13 +24,10 @@ public class WebsocketRunnable implements Runnable {
 
     private final MessageReqResult messageRequest;
 
-    private final ChannelPromise promise;
-
-    public WebsocketRunnable(ChannelHandlerContext channelHandlerContext, MessageReqResult messageRequest, GameTypeFactory gameTypeFactory, ChannelPromise promise) {
+    public WebsocketRunnable(ChannelHandlerContext channelHandlerContext, MessageReqResult messageRequest, GameTypeFactory gameTypeFactory) {
         this.channelHandlerContext = channelHandlerContext;
         this.messageRequest = messageRequest;
         this.gameTypeFactory = gameTypeFactory;
-        this.promise = promise;
     }
 
     /**
@@ -45,6 +42,7 @@ public class WebsocketRunnable implements Runnable {
             log.debug("websocket定时任务开始执行,参数为:{}", messageRequest);
             switch (messageRequest.getSocketMessageType()){
                 case WebSocketRedisConstant.Type.RPG:
+                    ChannelPromise promise = channelHandlerContext.newPromise();
                     gameTypeFactory.getState(MessageTypeConstant.HEART_BEAT).handle(messageRequest, channelHandlerContext, promise);
                     break;
                 default:
