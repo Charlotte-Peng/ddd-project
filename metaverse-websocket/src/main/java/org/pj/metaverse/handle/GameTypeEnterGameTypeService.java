@@ -13,6 +13,7 @@ import org.pj.metaverse.entity.vo.TUserLogVO;
 import org.pj.metaverse.init.WebSocketHandler;
 import org.pj.metaverse.result.MessageRepResult;
 import org.pj.metaverse.result.MessageReqResult;
+import org.pj.metaverse.utils.IdWorker;
 import org.pj.metaverse.utils.NvlUtils;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class GameTypeEnterGameTypeService extends GameTypeHandleCommon{
     private final CommonService commonService;
+    private final IdWorker idWorker;
 
     @Override
     public void handle(MessageReqResult messageRequest, ChannelHandlerContext ctx) {
@@ -42,7 +44,9 @@ public class GameTypeEnterGameTypeService extends GameTypeHandleCommon{
             if (NvlUtils.isNull(data)) {
                 log.error("剧情地图不存在");
                 super.sendMessageFail(ctx, "剧情地图不存在");
+                return;
             }
+            data.setSessionId(String.valueOf(idWorker.nextId()));
             messageRepResult.setData(data);
             super.sendMessage(ctx, messageRepResult);
         }else {

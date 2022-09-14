@@ -10,6 +10,10 @@ public interface MessageTypeConstant {
      */
     String HEART_BEAT = "HEART_BEAT";
     /**
+     * 错误消息
+     */
+    String ERROR = "ERROR";
+    /**
      * 进入游戏
      */
     String ENTER_GAME = "ENTER_GAME";
@@ -29,9 +33,12 @@ public interface MessageTypeConstant {
      * 获取剧情信息
      */
     String GET_STORY_INFO = "GET_STORY_INFO";
-
     /**
-     * 错误消息
+     * 地图移动
      */
-    String ERROR = "ERROR";
+    String MAP_MOVE = "MAP_MOVE";
+    /**
+     * 地图事件
+     */
+    String MAP_EVENT = "MAP_EVENT";
 }

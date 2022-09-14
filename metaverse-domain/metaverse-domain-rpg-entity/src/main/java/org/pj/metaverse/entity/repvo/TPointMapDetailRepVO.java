@@ -62,5 +62,11 @@ public class TPointMapDetailRepVO {
     @ApiModelProperty("绑定的奖励(首通必给奖励)")
     private String bindingRewardInfo;
 
+    @ApiModelProperty("地图各点状态")
+    private int[][] mapPoint;
+
+    @ApiModelProperty("随机会话id")
+    private String sessionId;
+
 
 }

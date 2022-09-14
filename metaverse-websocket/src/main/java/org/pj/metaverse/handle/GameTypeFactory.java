@@ -22,7 +22,7 @@ public class GameTypeFactory {
      * 注入到容器里面
      */
     @Autowired
-    Map<String, GameTypeHandle> typeHandleMap = new ConcurrentHashMap<>(4);
+    Map<String, GameTypeHandle> typeHandleMap = new ConcurrentHashMap<>(5);
 
     /**
      * 获取对应状态的执行类

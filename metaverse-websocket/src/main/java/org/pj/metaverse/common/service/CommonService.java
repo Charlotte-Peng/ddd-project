@@ -69,8 +69,20 @@ public class CommonService {
                         JSONArray pointInfoExplain = jsonObject1.getJSONArray("explain");
                         List<PointInfoExplainVO> collect1 = pointInfoExplain.stream().map(item1 -> JSON.parseObject(item1.toString(), PointInfoExplainVO.class)).collect(Collectors.toList());
                         jsonObject1.remove("explain");
+                        JSONArray mapPoint = jsonObject1.getJSONArray("mapPoint");
+                        int[][] ints = new int[mapPoint.size()][];
+                        for (int i = 0; i < mapPoint.size(); i++) {
+                            JSONArray jsonArray = mapPoint.getJSONArray(i);
+                            int[] ints1 = new int[jsonArray.size()];
+                            for (int j = 0; j < jsonArray.size(); j++) {
+                                ints1[j] = jsonArray.getInteger(j);
+                            }
+                            ints[i] = ints1;
+                        }
+                        jsonObject1.remove("mapPoint");
                         MapPointInfoVO mapPointInfoVO = JSON.parseObject(jsonObject1.toString(), MapPointInfoVO.class);
                         mapPointInfoVO.setExplain(collect1);
+                        mapPointInfoVO.setMapPoint(ints);
                         return mapPointInfoVO;
                     })
                     .collect(Collectors.toList());

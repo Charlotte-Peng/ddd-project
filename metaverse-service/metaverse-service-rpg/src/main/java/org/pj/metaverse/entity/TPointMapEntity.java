@@ -69,5 +69,8 @@ public class TPointMapEntity {
     @ApiModelProperty("绑定的奖励(首通必给奖励)")
     private String bindingRewardInfo;
 
+    @ApiModelProperty("地图各点状态")
+    private String mapPoint;
+
 
 }

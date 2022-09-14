@@ -42,5 +42,6 @@ public class TPointInfoEntity {
     @ApiModelProperty("奖励的道具id")
     private String rewardId;
 
-
+    @ApiModelProperty("指定节点位置(固定位置)")
+    private String mapPoint;
 }

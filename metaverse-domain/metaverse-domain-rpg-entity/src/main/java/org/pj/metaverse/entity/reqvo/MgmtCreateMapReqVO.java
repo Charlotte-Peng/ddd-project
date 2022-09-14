@@ -50,6 +50,9 @@ public class MgmtCreateMapReqVO {
     @ApiModelProperty("地图节点信息")
     private List<MgmtCreateMapPointInfoReqVO> pointInfoListJson;
 
+    @ApiModelProperty("地图各点状态")
+    private int[][] mapPoint;
+
 //    @ApiModelProperty("绑定的奖励(首通必给奖励)")
 //    private String bindingRewardInfo;
 }

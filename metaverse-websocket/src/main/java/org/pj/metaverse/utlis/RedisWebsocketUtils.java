@@ -3,11 +3,13 @@ package org.pj.metaverse.utlis;
 import lombok.RequiredArgsConstructor;
 import org.pj.metaverse.common.DefaultSettingConstant;
 import org.pj.metaverse.constant.redis.WebSocketRedisConstant;
+import org.pj.metaverse.utils.NvlUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.support.atomic.RedisAtomicLong;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * websocket redis工具类
@@ -106,4 +108,18 @@ public class RedisWebsocketUtils {
         return stringRedisTemplate.opsForSet().randomMember(WebSocketRedisConstant.WEBSOCKET_RPG_TYPE_KEY);
     }
 
+    public void clearUserWebsocketInfo() {
+        // 清除用户所在地图信息
+        String format = String.format(WebSocketRedisConstant.Rpg.USER_MAP_KEY, "*");
+        Set<String> keys = stringRedisTemplate.keys(format);
+        if (NvlUtils.isNotNull(keys)) {
+            stringRedisTemplate.delete(keys);
+        }
+    }
+
+    public void removeUser(String userId) {
+        // 删除用户所在地图信息
+        String format = String.format(WebSocketRedisConstant.Rpg.USER_MAP_KEY, userId);
+        stringRedisTemplate.delete(format);
+    }
 }

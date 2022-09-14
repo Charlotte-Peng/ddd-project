@@ -127,6 +127,8 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<TextWebSocketF
             future.cancel(true);
             FUTURE_MAP.remove(key);
         });
+        // 移除redis中的用户信息
+        redisWebsocketUtils.removeUser(key);
         log.info("一个客户端移除......" + ctx.channel().remoteAddress());
         // 关闭连接
         ctx.close();

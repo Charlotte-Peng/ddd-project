@@ -44,7 +44,8 @@ public class TPointMapMgmtServiceImpl extends ServiceImpl<TPointMapMapper, TPoin
             BeanUtils.copyProperties(mgmtCreateMapPointInfoReqVO, pointInfoEntity,"explain");
             pointInfoEntityList.add(pointInfoEntity);
         }
-        BeanUtils.copyProperties(vo, mapEntity);
+        BeanUtils.copyProperties(vo, mapEntity, "mapPoint");
+        mapEntity.setMapPoint(JSON.toJSONString(vo.getMapPoint()));
         mapEntity.setMapPointInfo(JSON.toJSONString(pointInfoEntityList));
         this.save(mapEntity);
     }

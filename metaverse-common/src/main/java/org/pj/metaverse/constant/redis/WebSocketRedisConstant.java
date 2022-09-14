@@ -41,4 +41,10 @@ public interface WebSocketRedisConstant {
          */
         String RPG = "RPG";
     }
+    interface Rpg{
+        /**
+         * 用户所在地图key
+         */
+        String USER_MAP_KEY = WEBSOCKET_NAME_SPACE + Type.RPG + ":USER_MAP_KEY:%s";
+    }
 }
