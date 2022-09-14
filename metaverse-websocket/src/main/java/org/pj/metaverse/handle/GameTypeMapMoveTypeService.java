@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.pj.metaverse.common.service.CommonService;
 import org.pj.metaverse.constant.MessageTypeConstant;
 import org.pj.metaverse.constant.redis.WebSocketRedisConstant;
+import org.pj.metaverse.entity.constant.PointInfoConstant;
 import org.pj.metaverse.entity.repvo.TPointMapDetailRepVO;
 import org.pj.metaverse.entity.reqvo.MapMoveReqVO;
 import org.pj.metaverse.entity.vo.MapPointInfoVO;
@@ -57,9 +58,20 @@ public class GameTypeMapMoveTypeService extends GameTypeHandleCommon{
         }
         // 根据事件id获取事件详情
         MapPointInfoVO mapPointInfoVO = tPointMapDetailRepVO.getMapPointInfo().get(eventId);
+        // 根据特殊的两个事件id，结束关卡
+        if(PointInfoConstant.Type.TRANSPORT.equals(mapPointInfoVO.getType())){
+            // 结束关卡
+            MessageRepResult<MapPointInfoVO> messageRepResult = new MessageRepResult<>();
+            messageRepResult.setMessageType(MessageTypeConstant.END_INSTANCE);
+            messageRepResult.setMessage("当前为传送关卡,进入下一关卡");
+            messageRepResult.setData(mapPointInfoVO);
+            super.sendMessage(ctx, messageRepResult);
+            return;
+        }
         // 返回事件详情
         MessageRepResult<MapPointInfoVO> messageRepResult = new MessageRepResult<>();
         messageRepResult.setMessageType(MessageTypeConstant.MAP_EVENT);
+        messageRepResult.setMessage("触发事件");
         messageRepResult.setData(mapPointInfoVO);
         super.sendMessage(ctx, messageRepResult);
     }

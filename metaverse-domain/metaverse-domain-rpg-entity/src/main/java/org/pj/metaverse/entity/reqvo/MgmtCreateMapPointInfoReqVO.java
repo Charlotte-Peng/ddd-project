@@ -21,7 +21,7 @@ public class MgmtCreateMapPointInfoReqVO {
     private String name;
 
     @NotNull(message = "关卡类型不能为空")
-    @ApiModelProperty("关卡类型 1:问答 2:商店 3:小怪 4:奖励buff 5:奖励当局货币 6:消除debuff 7:消除危险值 8:BOSS 9:剧情")
+    @ApiModelProperty("关卡类型 1:问答 2:商店 3:小怪 4:奖励buff 5:奖励当局货币 6:消除debuff 7:消除危险值 8:BOSS 9:剧情 10:结束关卡")
     private Integer type;
 
     @NotBlank(message = "关卡描述不能为空")

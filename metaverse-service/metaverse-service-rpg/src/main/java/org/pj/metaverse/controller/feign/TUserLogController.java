@@ -5,9 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.pj.metaverse.entity.TUserLogEntity;
 import org.pj.metaverse.service.ITUserLogService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author pengjie
@@ -28,5 +26,10 @@ public class TUserLogController {
                 .eq(TUserLogEntity::getLogType, logType)
                 .last("limit 1")
                 .one();
+    }
+    @ApiOperation("写入用户指定类型操作记录")
+    @PostMapping("writeLogByUserIdAndLogType")
+    public void writeLogByUserIdAndLogType(@RequestBody TUserLogEntity userLogEntity) {
+        userLogService.save(userLogEntity);
     }
 }

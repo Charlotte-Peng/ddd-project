@@ -1,4 +1,4 @@
-package org.pj.metaverse.constant;
+package org.pj.metaverse.entity.constant;
 
 /**
  * @author pengjie
@@ -42,6 +42,14 @@ public interface PointInfoConstant {
          * 剧情
          */
         Integer STORY = 9;
+        /**
+         * 传送点
+         */
+        Integer TRANSPORT = 10;
+        /**
+         * 结束关卡
+         */
+        Integer END = 11;
     }
-    Integer[] TYPES = {Type.QA, Type.SHOP, Type.MONSTER, Type.BUFF, Type.CURRENCY, Type.DEBUFF, Type.DANGER, Type.BOSS, Type.STORY};
+    Integer[] TYPES = {Type.QA, Type.SHOP, Type.MONSTER, Type.BUFF, Type.CURRENCY, Type.DEBUFF, Type.DANGER, Type.BOSS, Type.STORY, Type.TRANSPORT, Type.END};
 }

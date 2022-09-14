@@ -45,4 +45,12 @@ public interface MessageTypeConstant {
      * 退出游戏
      */
     String EXIT_GAME = "EXIT_GAME";
+    /**
+     * 传送关卡
+     */
+    String TRANSPORT_INSTANCE = "TRANSPORT_INSTANCE";
+    /**
+     * 结束关卡
+     */
+    String END_INSTANCE = "END_INSTANCE";
 }

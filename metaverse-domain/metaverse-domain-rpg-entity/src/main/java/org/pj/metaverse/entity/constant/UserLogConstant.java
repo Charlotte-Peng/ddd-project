@@ -1,4 +1,4 @@
-package org.pj.metaverse.constant.rpg;
+package org.pj.metaverse.entity.constant;
 
 /**
  * @author pengjie

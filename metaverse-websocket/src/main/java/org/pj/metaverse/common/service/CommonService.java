@@ -49,6 +49,14 @@ public class CommonService {
     }
 
     /**
+     * 写入用户指定类型操作记录
+     * @param userLogEntity 用户操作记录
+     */
+    public void writeLogByUserIdAndLogType(TUserLogVO userLogEntity) {
+        rpgFeign.writeLogByUserIdAndLogType(userLogEntity);
+    }
+
+    /**
      * 查询地图详情
      * @author pengjie
      * @date 2022/9/13 16:54
