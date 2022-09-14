@@ -39,6 +39,6 @@ public interface WebSocketRedisConstant {
         /**
          * rpg游戏的类型
          */
-        String RPG = "rpg";
+        String RPG = "RPG";
     }
 }

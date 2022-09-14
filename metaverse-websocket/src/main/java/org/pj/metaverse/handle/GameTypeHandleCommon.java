@@ -26,7 +26,7 @@ public class GameTypeHandleCommon implements GameTypeHandle {
      * @param messageRepResult 消息对象
      * @param ctx 通道相关信息
      */
-    public void sendMessage(MessageRepResult<?> messageRepResult, ChannelHandlerContext ctx) {
+    public void sendMessage(ChannelHandlerContext ctx,MessageRepResult<?> messageRepResult) {
         ctx.channel().writeAndFlush(new TextWebSocketFrame(JSON.toJSONString(messageRepResult)));
     }
     /**

@@ -2,10 +2,7 @@ package org.pj.metaverse.feign;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -14,7 +11,6 @@ import java.util.Map;
  * @date 16:03 2022/9/13
  **/
 @FeignClient(name = "metaverse-service-rpg")
-@RequestMapping("feign")
 public interface RpgFeign {
     /**
      * 获取用户指定类型操作记录
@@ -24,8 +20,8 @@ public interface RpgFeign {
      * @param logType 日志类型
      * @return java.util.Map<java.lang.String,java.lang.Object>
      */
-    @GetMapping("userLog/getLogByUserIdAndLogType")
-    Map<String,Object> getLogByUserIdAndLogType(String userId, Integer logType);
+    @GetMapping("feign/userLog/getLogByUserIdAndLogType")
+    Map<String,Object> getLogByUserIdAndLogType(@RequestParam String userId, @RequestParam Integer logType);
 
     /**
      * 查询地图详情
@@ -34,6 +30,6 @@ public interface RpgFeign {
      * @param code 地图code
      * @return java.util.Map<java.lang.String,java.lang.Object>
      */
-    @PostMapping("queryMapDetail/{code}")
+    @PostMapping("feign/pointMap/queryMapDetail/{code}")
     Map<String,Object> queryMapDetail(@PathVariable String code);
 }

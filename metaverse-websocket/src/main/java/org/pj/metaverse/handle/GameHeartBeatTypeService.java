@@ -22,6 +22,6 @@ public class GameHeartBeatTypeService extends GameTypeHandleCommon{
         messageRepResult.setMessageType(MessageTypeConstant.HEART_BEAT);
         messageRepResult.setMessage("当前服务器时间");
         messageRepResult.setData(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        super.sendMessage(messageRepResult, ctx);
+        super.sendMessage(ctx,messageRepResult);
     }
 }

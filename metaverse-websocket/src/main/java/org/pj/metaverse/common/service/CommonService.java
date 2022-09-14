@@ -1,9 +1,13 @@
 package org.pj.metaverse.common.service;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import lombok.RequiredArgsConstructor;
 import org.pj.metaverse.entity.repvo.TPointMapDetailRepVO;
 import org.pj.metaverse.entity.reqvo.MgmtCreateMapPointInfoReqVO;
+import org.pj.metaverse.entity.vo.MapPointInfoVO;
+import org.pj.metaverse.entity.vo.PointInfoExplainVO;
 import org.pj.metaverse.entity.vo.TUserLogVO;
 import org.pj.metaverse.feign.RpgFeign;
 import org.pj.metaverse.utils.NvlUtils;
@@ -11,7 +15,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author pengjie
@@ -46,7 +52,7 @@ public class CommonService {
      * 查询地图详情
      * @author pengjie
      * @date 2022/9/13 16:54
-     * @param id 地图id
+     * @param code 地图id
      * @return java.util.Map<java.lang.String,java.lang.Object>
      */
     public TPointMapDetailRepVO queryMapDetail(String code){
@@ -55,7 +61,22 @@ public class CommonService {
             return null;
         }else {
             String s = JSON.toJSONString(map);
-            TPointMapDetailRepVO data = JSON.parseObject(s, TPointMapDetailRepVO.class);
+            JSONObject jsonObject = JSONObject.parseObject(s);
+            JSONArray mapPointInfo = jsonObject.getJSONArray("mapPointInfo");
+            List<MapPointInfoVO> collect = mapPointInfo.stream()
+                    .map(item -> {
+                        JSONObject jsonObject1 = JSONObject.parseObject(item.toString());
+                        JSONArray pointInfoExplain = jsonObject1.getJSONArray("explain");
+                        List<PointInfoExplainVO> collect1 = pointInfoExplain.stream().map(item1 -> JSON.parseObject(item1.toString(), PointInfoExplainVO.class)).collect(Collectors.toList());
+                        jsonObject1.remove("explain");
+                        MapPointInfoVO mapPointInfoVO = JSON.parseObject(jsonObject1.toString(), MapPointInfoVO.class);
+                        mapPointInfoVO.setExplain(collect1);
+                        return mapPointInfoVO;
+                    })
+                    .collect(Collectors.toList());
+            jsonObject.remove("mapPointInfo");
+            TPointMapDetailRepVO data = JSON.parseObject(jsonObject.toString(), TPointMapDetailRepVO.class);
+            data.setMapPointInfo(collect);
             return data;
         }
     }

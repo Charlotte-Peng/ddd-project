@@ -20,6 +20,6 @@ public class GameTypeInstanceMapInfoTypeService extends GameTypeHandleCommon{
         MessageRepResult<Void> messageRepResult = new MessageRepResult<>();
         messageRepResult.setMessageType(messageRequest.getMessageType());
         messageRepResult.setMessage("进入游戏成功");
-        super.sendMessage(messageRepResult, ctx);
+        super.sendMessage(ctx,messageRepResult);
     }
 }

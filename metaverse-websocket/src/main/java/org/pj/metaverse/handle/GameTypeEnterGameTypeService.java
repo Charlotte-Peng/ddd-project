@@ -34,7 +34,7 @@ public class GameTypeEnterGameTypeService extends GameTypeHandleCommon{
         TUserLogVO logByUserIdAndLogType = commonService.getLogByUserIdAndLogType(userId, UserLogConstant.STORY_PASS);
         if (NvlUtils.isNull(logByUserIdAndLogType)) {
             // 发送进入游戏剧情地图的消息
-            MessageRepResult<TPointMapDetailRepVO> messageRepResult = new MessageRepResult();
+            MessageRepResult<TPointMapDetailRepVO> messageRepResult = new MessageRepResult<>();
             messageRepResult.setMessageType(MessageTypeConstant.GET_STORY_INFO);
             messageRepResult.setMessage("进入游戏剧情地图");
             // 查询剧情地图信息
@@ -44,9 +44,10 @@ public class GameTypeEnterGameTypeService extends GameTypeHandleCommon{
                 super.sendMessageFail(ctx, "剧情地图不存在");
             }
             messageRepResult.setData(data);
+            super.sendMessage(ctx, messageRepResult);
         }else {
             // 发送进入游戏主地图的消息
-            MessageRepResult<Void> messageRepResult = new MessageRepResult();
+            MessageRepResult<Void> messageRepResult = new MessageRepResult<>();
             messageRepResult.setMessageType(DefaultMapConstant.DEFAULT_MAIN_CITY_MAP_CODE);
             messageRepResult.setMessage("进入游戏主地图");
             // TODO 查询主地图信息

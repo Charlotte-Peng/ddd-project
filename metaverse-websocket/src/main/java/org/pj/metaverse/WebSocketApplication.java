@@ -7,6 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 import javax.annotation.Resource;
 
@@ -19,6 +20,7 @@ import javax.annotation.Resource;
                 DataSourceTransactionManagerAutoConfiguration.class,
                 DruidDataSourceAutoConfigure.class}
 )
+@EnableFeignClients(basePackages = "org.pj.metaverse.feign")
 public class WebSocketApplication {
     public static void main(String[] args) {
         SystemInit.init();

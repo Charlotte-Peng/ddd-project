@@ -23,7 +23,7 @@ public class MapPointInfoVO {
     private Integer type;
 
     @ApiModelProperty("说明文字")
-    private List<PointInfoExplainVO> explainData;
+    private List<PointInfoExplainVO> explain;
 
     @ApiModelProperty("奖励的道具id")
     private String rewardId;
