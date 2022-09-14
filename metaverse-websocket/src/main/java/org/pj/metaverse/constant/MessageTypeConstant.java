@@ -41,4 +41,8 @@ public interface MessageTypeConstant {
      * 地图事件
      */
     String MAP_EVENT = "MAP_EVENT";
+    /**
+     * 退出游戏
+     */
+    String EXIT_GAME = "EXIT_GAME";
 }

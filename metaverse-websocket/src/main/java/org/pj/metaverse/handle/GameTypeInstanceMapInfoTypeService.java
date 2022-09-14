@@ -1,6 +1,7 @@
 package org.pj.metaverse.handle;
 
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelPromise;
 import lombok.RequiredArgsConstructor;
 import org.pj.metaverse.constant.MessageTypeConstant;
 import org.pj.metaverse.result.MessageRepResult;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class GameTypeInstanceMapInfoTypeService extends GameTypeHandleCommon{
 
     @Override
-    public void handle(MessageReqResult messageRequest, ChannelHandlerContext ctx) {
+    public void handle(MessageReqResult messageRequest, ChannelHandlerContext ctx, ChannelPromise promise) {
         MessageRepResult<Void> messageRepResult = new MessageRepResult<>();
         messageRepResult.setMessageType(messageRequest.getMessageType());
         messageRepResult.setMessage("进入游戏成功");

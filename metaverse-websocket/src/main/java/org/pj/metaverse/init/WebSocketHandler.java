@@ -1,10 +1,7 @@
 package org.pj.metaverse.init;
 
 import com.alibaba.fastjson.JSON;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandler;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.*;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.util.concurrent.Future;
 import lombok.extern.slf4j.Slf4j;
@@ -77,13 +74,13 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<TextWebSocketF
             CLIENT_MAP.put(key, messageRequest.getUserId());
             String logMsg = "接收到客户端消息，消息id：%s，消息类型：%s，消息内容：%s,消息数据：%s";
             log.info(String.format(logMsg, messageRequest.getMessageId(), messageRequest.getMessageType(), messageRequest.getMessage(), messageRequest.getData()));
-
+            ChannelPromise promise = ctx.newPromise();
             if (!CHANNEL_MAP.containsKey(key)) {
                 // 使用channel中的任务队列，做周期循环推送客户端消息
                 Future<?> future = ctx.channel()
                         .eventLoop()
                         .scheduleAtFixedRate(
-                                new WebsocketRunnable(ctx, messageRequest,gameTypeFactory),
+                                new WebsocketRunnable(ctx, messageRequest,gameTypeFactory,promise),
                                 0,
                                 redisWebsocketUtils.getWebsocketTaskCycleTime(WebSocketRedisConstant.Type.RPG),
                                 TimeUnit.SECONDS);
@@ -95,7 +92,8 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<TextWebSocketF
 
             }
             // 每次客户端和服务的主动通信，和服务端周期向客户端推送消息互不影响 解决问题一
-            gameTypeFactory.getState(messageRequest.getMessageType()).handle(messageRequest, ctx);
+
+            gameTypeFactory.getState(messageRequest.getMessageType()).handle(messageRequest, ctx,promise);
         } catch (Exception e) {
             log.error("websocket服务器推送消息发生错误：", e);
         }
@@ -151,6 +149,8 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<TextWebSocketF
             future.cancel(true);
             FUTURE_MAP.remove(key);
         });
+        // 移除redis中的用户信息
+        redisWebsocketUtils.removeUser(key);
         //关闭长连接
         ctx.close();
         log.info("异常发生 " + cause.getMessage());

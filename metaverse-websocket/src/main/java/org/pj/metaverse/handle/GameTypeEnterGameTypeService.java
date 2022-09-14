@@ -1,6 +1,7 @@
 package org.pj.metaverse.handle;
 
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelPromise;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.pj.metaverse.common.service.CommonService;
@@ -29,7 +30,7 @@ public class GameTypeEnterGameTypeService extends GameTypeHandleCommon{
     private final IdWorker idWorker;
 
     @Override
-    public void handle(MessageReqResult messageRequest, ChannelHandlerContext ctx) {
+    public void handle(MessageReqResult messageRequest, ChannelHandlerContext ctx, ChannelPromise promise) {
         String userId = WebSocketHandler.getClientMap().get(ctx.channel().id().asLongText());
         log.info("玩家{}进入游戏", userId);
         // 判断该玩家是否走完剧情任务

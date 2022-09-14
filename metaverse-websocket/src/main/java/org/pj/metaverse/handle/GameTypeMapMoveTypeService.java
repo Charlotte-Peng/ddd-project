@@ -2,6 +2,7 @@ package org.pj.metaverse.handle;
 
 import com.alibaba.fastjson.JSON;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelPromise;
 import lombok.RequiredArgsConstructor;
 import org.pj.metaverse.common.service.CommonService;
 import org.pj.metaverse.constant.MessageTypeConstant;
@@ -26,7 +27,7 @@ public class GameTypeMapMoveTypeService extends GameTypeHandleCommon{
     private final CommonService commonService;
 
     @Override
-    public void handle(MessageReqResult messageRequest, ChannelHandlerContext ctx) {
+    public void handle(MessageReqResult messageRequest, ChannelHandlerContext ctx, ChannelPromise promise) {
         // 查询该用户是否进入地图
         String format = String.format(WebSocketRedisConstant.Rpg.USER_MAP_KEY, messageRequest.getUserId());
         String s = stringRedisTemplate.opsForValue().get(format);
