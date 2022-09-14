@@ -25,6 +25,11 @@ public class ServerException extends RuntimeException {
         this.code =responseEnum.getCode();
         this.message = responseEnum.getMessage();
     }
+
+    public ServerException(String message) {
+        this.code = -1;
+        this.message = message;
+    }
     public ServerException(ResponseEnum responseEnum, Object data) {
         this.code =responseEnum.getCode();
         this.message = responseEnum.getMessage();

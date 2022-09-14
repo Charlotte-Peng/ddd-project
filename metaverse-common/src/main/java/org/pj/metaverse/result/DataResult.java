@@ -42,6 +42,12 @@ public class DataResult<T> implements Serializable {
         this.message = message;
     }
 
+    public DataResult(T t) {
+        this.code = 200;
+        this.message = SUCCESS_MESSAGE;
+        this.data = t;
+    }
+
     public DataResult(ResponseEnum responseEnum) {
         this.code = responseEnum.getCode();
         this.message = responseEnum.getMessage();
@@ -53,17 +59,18 @@ public class DataResult<T> implements Serializable {
         this.data = t;
     }
 
-    public DataResult(DataResult dataResult, T t) {
-        this.code = dataResult.getCode();
-        this.message = dataResult.getMessage();
-        this.data = t;
-    }
-
     public static DataResult<Void> error(){
         return new DataResult<>(ResponseEnum.SYSTEM_ERROR);
     }
+    public static DataResult<Void> error(String message){
+        return new DataResult<>(ERROR_CODE,message);
+    }
+
     public static DataResult<Void> success(){
         return new DataResult<>(ResponseEnum.SUCCESS);
+    }
+    public static <T> DataResult<T> success(T t){
+        return new DataResult<>(ResponseEnum.SUCCESS,t);
     }
 
 

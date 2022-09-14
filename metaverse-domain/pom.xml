@@ -17,6 +17,7 @@
         <module>metaverse-domain-user-entity</module>
         <module>metaverse-domain-blog-entity</module>
         <module>metaverse-domain-wallet</module>
+        <module>metaverse-domain-rpg-entity</module>
     </modules>
 
     <properties>

@@ -2,7 +2,7 @@ package org.pj.metaverse.entity.repvo;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.pj.metaverse.entity.PermissionEntity;
+import org.pj.metaverse.entity.vo.PermissionVO;
 
 import java.util.List;
 
@@ -29,5 +29,5 @@ public class LoginRepVO {
     private String userAvatar;
 
     @ApiModelProperty("当前用户的权限集合")
-    private List<PermissionEntity> permissionList;
+    private List<PermissionVO> permissionList;
 }
