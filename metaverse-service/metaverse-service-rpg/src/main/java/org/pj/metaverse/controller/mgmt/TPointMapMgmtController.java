@@ -32,7 +32,7 @@ public class TPointMapMgmtController {
     }
 
     @ApiOperation("查询地图列表")
-    @PostMapping("queryMapList")
+    @GetMapping("queryMapList")
     public DataResult<IPage<TPointMapEntity>> queryMapList(HttpServletRequest request){
         IPage<TPointMapEntity> data = pointMapMgmtService.queryMapList(request.getParameterMap());
         return DataResult.success(data);

@@ -40,7 +40,7 @@ public class TCityEntity {
     private String mapCode;
 
     @ApiModelProperty("地图信息")
-    private String mapPointInfo;
+    private String npcInfo;
 
 
 }
