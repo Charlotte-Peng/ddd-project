@@ -1,12 +1,11 @@
-package org.pj.metaverse.entity;
+package org.pj.metaverse.entity.vo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -19,15 +18,11 @@ import lombok.experimental.Accessors;
  * @author pengjie
  * @since 2022-08-25 14:40:06
  */
-@Getter
-@Setter
-@Accessors(chain = true)
-@TableName("t_city")
-@ApiModel(value = "TCityEntity对象", description = "城镇地图信息")
-public class TCityEntity {
+@Data
+@ApiModel(value = "TCityVO对象", description = "城镇地图信息")
+public class TCityVO {
 
     @ApiModelProperty("主键id")
-    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     @ApiModelProperty("地图名称")

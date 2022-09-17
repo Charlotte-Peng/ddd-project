@@ -10,6 +10,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * <p>
  * 游戏关卡信息
@@ -20,7 +22,9 @@ import lombok.experimental.Accessors;
  */
 @Data
 @ApiModel(value = "TPointMapEntity代理对象", description = "游戏关卡信息")
-public class TPointMapVO {
+public class TPointMapVO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty("主键id")
     private Integer id;
@@ -63,6 +67,9 @@ public class TPointMapVO {
 
     @ApiModelProperty("绑定的奖励(首通必给奖励)")
     private String bindingRewardInfo;
+
+    @ApiModelProperty("地图各点状态")
+    private String mapPoint;
 
 
 }

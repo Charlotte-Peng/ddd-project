@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -15,7 +16,9 @@ import java.time.LocalDateTime;
 @Data
 @Accessors(chain = true)
 @ApiModel(value = "TUserLogEntity代理对象", description = "用户操作记录表")
-public class TUserLogVO {
+public class TUserLogVO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty("主键id")
     private Integer id;

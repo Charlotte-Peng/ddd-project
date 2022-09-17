@@ -4,7 +4,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.pj.metaverse.entity.TUserLogEntity;
+import org.pj.metaverse.entity.vo.TUserLogVO;
 import org.pj.metaverse.service.ITUserLogService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -20,12 +22,15 @@ public class TUserLogController {
 
     @ApiOperation("获取用户指定类型操作记录")
     @GetMapping("getLogByUserIdAndLogType")
-    public TUserLogEntity getLogByUserIdAndLogType(String userId, Integer logType) {
-        return userLogService.lambdaQuery()
+    public TUserLogVO getLogByUserIdAndLogType(String userId, Integer logType) {
+        TUserLogEntity one = userLogService.lambdaQuery()
                 .eq(TUserLogEntity::getUserId, userId)
                 .eq(TUserLogEntity::getLogType, logType)
                 .last("limit 1")
                 .one();
+        TUserLogVO vo = new TUserLogVO();
+        BeanUtils.copyProperties(one, vo);
+        return vo;
     }
     @ApiOperation("写入用户指定类型操作记录")
     @PostMapping("writeLogByUserIdAndLogType")

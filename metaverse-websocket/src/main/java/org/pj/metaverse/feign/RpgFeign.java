@@ -1,6 +1,7 @@
 package org.pj.metaverse.feign;
 
 import io.swagger.annotations.ApiOperation;
+import org.pj.metaverse.entity.vo.TPointMapVO;
 import org.pj.metaverse.entity.vo.TUserLogVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public interface RpgFeign {
      * @return java.util.Map<java.lang.String,java.lang.Object>
      */
     @GetMapping("feign/userLog/getLogByUserIdAndLogType")
-    Map<String,Object> getLogByUserIdAndLogType(@RequestParam String userId, @RequestParam Integer logType);
+    TUserLogVO getLogByUserIdAndLogType(@RequestParam String userId, @RequestParam Integer logType);
 
     /**
      * 写入用户指定类型操作记录
@@ -41,5 +42,5 @@ public interface RpgFeign {
      * @return java.util.Map<java.lang.String,java.lang.Object>
      */
     @PostMapping("feign/pointMap/queryMapDetail/{code}")
-    Map<String,Object> queryMapDetail(@PathVariable String code);
+    TPointMapVO queryMapDetail(@PathVariable String code);
 }

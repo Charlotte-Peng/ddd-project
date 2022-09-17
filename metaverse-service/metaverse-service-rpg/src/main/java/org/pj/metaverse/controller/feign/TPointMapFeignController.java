@@ -4,8 +4,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.pj.metaverse.entity.TPointMapEntity;
+import org.pj.metaverse.entity.vo.TPointMapVO;
 import org.pj.metaverse.result.DataResult;
 import org.pj.metaverse.service.ITPointMapService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,10 +26,13 @@ public class TPointMapFeignController {
 
     @ApiOperation("查询地图详情")
     @PostMapping("queryMapDetail/{code}")
-    public TPointMapEntity queryMapDetail(@PathVariable String code){
-        return pointMapService.lambdaQuery()
+    public TPointMapVO queryMapDetail(@PathVariable String code){
+        TPointMapEntity one = pointMapService.lambdaQuery()
                 .eq(TPointMapEntity::getMapCode, code)
                 .last("limit 1")
                 .one();
+        TPointMapVO vo = new TPointMapVO();
+        BeanUtils.copyProperties(one, vo);
+        return vo;
     }
 }

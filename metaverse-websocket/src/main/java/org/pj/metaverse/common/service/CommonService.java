@@ -8,6 +8,7 @@ import org.pj.metaverse.entity.repvo.TPointMapDetailRepVO;
 import org.pj.metaverse.entity.reqvo.MgmtCreateMapPointInfoReqVO;
 import org.pj.metaverse.entity.vo.MapPointInfoVO;
 import org.pj.metaverse.entity.vo.PointInfoExplainVO;
+import org.pj.metaverse.entity.vo.TPointMapVO;
 import org.pj.metaverse.entity.vo.TUserLogVO;
 import org.pj.metaverse.feign.RpgFeign;
 import org.pj.metaverse.utils.NvlUtils;
@@ -37,13 +38,10 @@ public class CommonService {
      * @return java.util.Map<java.lang.String,java.lang.Object>
      */
     public TUserLogVO getLogByUserIdAndLogType(String userId, Integer logType) {
-        Map<String, Object> logByUserIdAndLogType = rpgFeign.getLogByUserIdAndLogType(userId, logType);
-        if (NvlUtils.isNull(logByUserIdAndLogType)) {
+        TUserLogVO data = rpgFeign.getLogByUserIdAndLogType(userId, logType);
+        if (NvlUtils.isNull(data)) {
             return null;
         }else {
-            String s = JSON.toJSONString(logByUserIdAndLogType);
-            TUserLogVO data = new TUserLogVO();
-            BeanUtils.copyProperties(JSON.parseObject(s, TUserLogVO.class),data);
             return data;
         }
     }
@@ -64,13 +62,12 @@ public class CommonService {
      * @return java.util.Map<java.lang.String,java.lang.Object>
      */
     public TPointMapDetailRepVO queryMapDetail(String code){
-        Map<String, Object> map = rpgFeign.queryMapDetail(code);
-        if (NvlUtils.isNull(map)) {
+        TPointMapVO vo = rpgFeign.queryMapDetail(code);
+        if (NvlUtils.isNull(vo)) {
             return null;
         }else {
-            String s = JSON.toJSONString(map);
-            JSONObject jsonObject = JSONObject.parseObject(s);
-            JSONArray mapPointInfo = jsonObject.getJSONArray("mapPointInfo");
+            String pointInfoJson = vo.getMapPointInfo();
+            JSONArray mapPointInfo = JSON.parseArray(pointInfoJson);
             List<MapPointInfoVO> collect = mapPointInfo.stream()
                     .map(item -> {
                         JSONObject jsonObject1 = JSONObject.parseObject(item.toString());
@@ -82,8 +79,8 @@ public class CommonService {
                         return mapPointInfoVO;
                     })
                     .collect(Collectors.toList());
-            jsonObject.remove("mapPointInfo");
-            JSONArray mapPoint = jsonObject.getJSONArray("mapPoint");
+            String mapPointJson = vo.getMapPoint();
+            JSONArray mapPoint = JSON.parseArray(mapPointJson);
             int[][] ints = new int[mapPoint.size()][];
             for (int i = 0; i < mapPoint.size(); i++) {
                 JSONArray jsonArray = mapPoint.getJSONArray(i);
@@ -93,8 +90,8 @@ public class CommonService {
                 }
                 ints[i] = ints1;
             }
-            jsonObject.remove("mapPoint");
-            TPointMapDetailRepVO data = JSON.parseObject(jsonObject.toString(), TPointMapDetailRepVO.class);
+            TPointMapDetailRepVO data = new TPointMapDetailRepVO();
+            BeanUtils.copyProperties(vo, data);
             data.setMapPoint(ints);
             data.setMapPointInfo(collect);
             return data;
